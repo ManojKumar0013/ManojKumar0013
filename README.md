@@ -3,9 +3,18 @@
 🎓 B.Tech CSE Student  
 💻 Interested in Machine Learning & Systems  
 🚀 Learning C, Python, and Web Development
-## 🚀 Skills
+## 🚀 Tech Stack
 
-<img src="https://skillicons.dev/icons?i=c,cpp,python,java,js,react,flask,mysql,arduino,opencv,gcp" />
+![C](https://img.shields.io/badge/C-blue?style=for-the-badge&logo=c&logoColor=white)
+![C++](https://img.shields.io/badge/C++-blue?style=for-the-badge&logo=c%2B%2B&logoColor=white)
+![Python](https://img.shields.io/badge/Python-yellow?style=for-the-badge&logo=python)
+![Java](https://img.shields.io/badge/Java-red?style=for-the-badge&logo=java)
+![JavaScript](https://img.shields.io/badge/JavaScript-yellow?style=for-the-badge&logo=javascript)
+![React](https://img.shields.io/badge/React-blue?style=for-the-badge&logo=react)
+![Flask](https://img.shields.io/badge/Flask-black?style=for-the-badge&logo=flask)
+![MySQL](https://img.shields.io/badge/MySQL-blue?style=for-the-badge&logo=mysql)
+![Arduino](https://img.shields.io/badge/Arduino-teal?style=for-the-badge&logo=arduino)
+![Google Cloud](https://img.shields.io/badge/GoogleCloud-white?style=for-the-badge&logo=googlecloud)
 
 <!--
 **ManojKumar0013/ManojKumar0013** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
