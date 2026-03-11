@@ -3,6 +3,9 @@
 🎓 B.Tech CSE Student  
 💻 Interested in Machine Learning & Systems  
 🚀 Learning C, Python, and Web Development
+## 🚀 Skills
+
+<img src="https://skillicons.dev/icons?i=c,cpp,python,java,js,react,flask,mysql,arduino,opencv,gcp" />
 
 <!--
 **ManojKumar0013/ManojKumar0013** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
