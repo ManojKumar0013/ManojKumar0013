@@ -4,14 +4,11 @@
 💻 Interested in Machine Learning & Systems  
 🚀 Learning C, Python, and Web Development
 
-
 ## 🌐 Socials:
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-blue?style=for-the-badge&logo=linkedin)](www.linkedin.com/in/manoj-kumar-bondada-a92410384)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-blue?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/manoj-kumar-bondada-a92410384) 
+[![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:manojkumarbondada123@gmail.com)
 
-[![Email](https://img.shields.io/badge/Email-red?style=for-the-badge&logo=gmail)](mailto:manojkumarbondada123@gmail.com)
-
-\
 ## 🚀 Tech Stack:
 
 ![C](https://img.shields.io/badge/C-blue?style=for-the-badge&logo=c&logoColor=white)
