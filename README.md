@@ -1,4 +1,8 @@
-## Hi there 👋
+# Hi 👋 I'm Manoj Kumar
+
+🎓 B.Tech CSE Student  
+💻 Interested in Machine Learning & Systems  
+🚀 Learning C, Python, and Web Development
 
 <!--
 **ManojKumar0013/ManojKumar0013** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
