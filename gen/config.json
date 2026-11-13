@@ -1,13 +1,22 @@
 {
-  "login": "saharshbaiju",
-  "display_name": "Saharsh Baiju",
-  "headline": "SAHARSH",
-  "tagline": [
-    "systems · backend architecture · RC hardware",
-    "amFOSS @ Amrita · ICPC prep · low-level curious"
+  "login": "ManojKumar0013",
+  "display_name": "Manoj Kumar",
+  "initials": "MKB",
+  "logo": "MANOJ//OS",
+  "tagline": "B.Tech CSE · Machine Learning & Systems",
+  "links": [
+    {"label": "LINKEDIN", "text": "/in/manoj-kumar-bondada", "url": "https://www.linkedin.com/in/manoj-kumar-bondada-a92410384"},
+    {"label": "EMAIL", "text": "manojkumarbondada123@gmail.com", "url": "mailto:manojkumarbondada123@gmail.com"}
   ],
-  "location": {"lat": 9.09, "lon": 76.49, "label": "Amritapuri, Kerala"},
-  "contrib_goal": 1000,
-  "boot_org": "amFOSS, Amrita",
-  "boot_tags": "systems · backend · RC hardware"
+  "skills": [
+    {"key": "c", "name": "C", "role": "IRON KNIGHT", "languages": ["C"]},
+    {"key": "python", "name": "PYTHON", "role": "SERPENT MAGE", "languages": ["Python", "Jupyter Notebook"]},
+    {"key": "java", "name": "JAVA", "role": "BREW PALADIN", "languages": ["Java"]},
+    {"key": "react", "name": "REACT", "role": "ORBIT RANGER", "languages": ["TypeScript"]},
+    {"key": "kotlin", "name": "KOTLIN", "role": "PRISM ROGUE", "languages": ["Kotlin"]},
+    {"key": "javascript", "name": "JAVASCRIPT", "role": "SPARK BARD", "languages": ["JavaScript"]}
+  ],
+  "training_below": 0.03,
+  "max_projects": 6,
+  "exclude_projects": []
 }

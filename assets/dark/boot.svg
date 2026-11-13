@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="840" height="360" viewBox="0 0 840 360" role="img" aria-label="MANOJ//OS boot screen for Manoj Kumar: B.Tech CSE · Machine Learning &amp; Systems">
+<title>MANOJ//OS boot screen for Manoj Kumar: B.Tech CSE · Machine Learning &amp; Systems</title>
+<defs><filter id="glow" x="-20%" y="-40%" width="140%" height="180%"><feGaussianBlur stdDeviation="2.4" result="b"/><feComponentTransfer in="b" result="b2"><feFuncA type="linear" slope="0.9"/></feComponentTransfer><feMerge><feMergeNode in="b2"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+<radialGradient id="halo" cx="50%" cy="0%" r="90%"><stop offset="0" stop-color="#6ff7b0" stop-opacity="0.099"/><stop offset="1" stop-color="#6ff7b0" stop-opacity="0"/></radialGradient>
+</defs>
+<style>
+.m{font-family:'JetBrains Mono','SF Mono','Cascadia Code','Fira Code',Menlo,Consolas,'DejaVu Sans Mono','Liberation Mono',monospace}
+.fg{fill:#e3ece7}.dim{fill:#8a9892}.faint{fill:#3a474d}.green{fill:#6ff7b0}.green2{fill:#1f7a52}
+.amber{fill:#ffb547}.amber2{fill:#7a5a22}.mag{fill:#ff5ca8}.bgc{fill:#07090b}.card{fill:#0d1215}.screen{fill:#0a0e11}
+.glow{filter:url(#glow)}
+.fb{transform-box:fill-box;transform-origin:center}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}}
+.rise{animation:rise .7s cubic-bezier(.2,.7,.2,1) backwards}
+@keyframes fade{from{opacity:0}}
+.fade{animation:fade .8s ease-out backwards}
+@keyframes blink{0%,55%{opacity:1}56%,100%{opacity:.3}}
+.blink{animation:blink 1.4s ease-in-out infinite}
+@keyframes type{from{transform:scaleX(1)}to{transform:scaleX(0)}}
+.type{transform-box:fill-box;transform-origin:right center;transform:scaleX(0);animation:type .55s steps(24,end) backwards}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+
+@keyframes pwr{0%{opacity:1;transform:scaleX(0)}45%{opacity:1;transform:scaleX(1)}100%{opacity:0;transform:scaleX(1)}}
+.pwr{opacity:0;transform-box:fill-box;transform-origin:center;animation:pwr .9s cubic-bezier(.3,.7,.2,1)}
+@keyframes dimlog{0%,86%{opacity:1}100%{opacity:.5}}
+.dimlog{opacity:.5;animation:dimlog 3.6s ease-out}
+@keyframes title{from{opacity:0;transform:scale(.94)}}
+.title{animation:title 1s cubic-bezier(.2,.8,.2,1) 2.7s backwards}
+</style>
+<rect x=".5" y=".5" width="839" height="359" rx="14" fill="#07090b" stroke="#1a2328"/>
+<rect x="1" y="34" width="838" height="325" rx="13" fill="url(#halo)"/>
+<path d="M1 34V14.5A13.5 13.5 0 0 1 14.5 1h811A13.5 13.5 0 0 1 839 14.5V34z" fill="#0c1013"/>
+<line x1="1" y1="34.5" x2="839" y2="34.5" stroke="#1a2328"/>
+<rect x="18" y="13" width="8" height="8" class="green"/><rect x="30" y="13" width="8" height="8" class="amber"/><rect x="42" y="13" width="8" height="8" class="mag"/>
+<text x="62" y="21.5" class="m dim" font-size="11.5">manoj_os — boot.sys</text>
+<text x="822" y="21.5" class="m dim" font-size="11.5" text-anchor="end">ManojKumar0013 · arcade edition</text>
+<rect x="24" y="54" width="792" height="282" rx="10" class="screen" stroke="#1a2328"/>
+<rect x="64" y="194.0" width="712" height="2" class="green pwr"/>
+<g class="dimlog">
+<text x="46" y="84" class="m fg" font-size="11.5" xml:space="preserve"><tspan class="green">[ OK ]</tspan> <tspan class="dim">POST </tspan> memory check · 640K · ok</text>
+<rect x="42" y="72" width="396.0" height="16" class="screen type" style="animation-delay:0.50s"/>
+<text x="46" y="101" class="m fg" font-size="11.5" xml:space="preserve"><tspan class="green">[ OK ]</tspan> <tspan class="dim">MOUNT</tspan> /home/manojkumar0013 · 9 repos</text>
+<rect x="42" y="89" width="396.0" height="16" class="screen type" style="animation-delay:0.92s"/>
+<text x="46" y="118" class="m fg" font-size="11.5" xml:space="preserve"><tspan class="green">[ OK ]</tspan> <tspan class="dim">LOAD </tspan> skills.pkg · 6 modules</text>
+<rect x="42" y="106" width="396.0" height="16" class="screen type" style="animation-delay:1.34s"/>
+<text x="46" y="135" class="m fg" font-size="11.5" xml:space="preserve"><tspan class="green">[ OK ]</tspan> <tspan class="dim">SYNC </tspan> github · 56 contributions in 2026</text>
+<rect x="42" y="123" width="396.0" height="16" class="screen type" style="animation-delay:1.76s"/>
+<text x="46" y="152" class="m fg" font-size="11.5" xml:space="preserve"><tspan class="green">[ OK ]</tspan> <tspan class="dim">READY</tspan> uptime 450d · player 1</text>
+<rect x="42" y="140" width="396.0" height="16" class="screen type" style="animation-delay:2.18s"/>
+</g>
+<text x="794" y="84" class="m dim" font-size="11" text-anchor="end">HI-SCORE</text>
+<text x="794" y="102" class="m amber" font-size="15" text-anchor="end" font-weight="700">000056</text>
+<text x="794" y="118" class="m dim" font-size="10" text-anchor="end">contributions</text>
+<g class="title fb">
+<path class="green2" d="M212 178h8v8h-8zM244 178h8v8h-8zM212 186h16v8h-16zM236 186h16v8h-16zM212 194h8v8h-8zM228 194h8v8h-8zM244 194h8v8h-8zM212 202h8v8h-8zM228 202h8v8h-8zM244 202h8v8h-8zM212 210h8v8h-8zM244 210h8v8h-8zM212 218h8v8h-8zM244 218h8v8h-8zM212 226h8v8h-8zM244 226h8v8h-8zM268 178h24v8h-24zM260 186h8v8h-8zM292 186h8v8h-8zM260 194h8v8h-8zM292 194h8v8h-8zM260 202h40v8h-40zM260 210h8v8h-8zM292 210h8v8h-8zM260 218h8v8h-8zM292 218h8v8h-8zM260 226h8v8h-8zM292 226h8v8h-8zM308 178h8v8h-8zM340 178h8v8h-8zM308 186h16v8h-16zM340 186h8v8h-8zM308 194h8v8h-8zM324 194h8v8h-8zM340 194h8v8h-8zM308 202h8v8h-8zM332 202h16v8h-16zM308 210h8v8h-8zM340 210h8v8h-8zM308 218h8v8h-8zM340 218h8v8h-8zM308 226h8v8h-8zM340 226h8v8h-8zM364 178h24v8h-24zM356 186h8v8h-8zM388 186h8v8h-8zM356 194h8v8h-8zM388 194h8v8h-8zM356 202h8v8h-8zM388 202h8v8h-8zM356 210h8v8h-8zM388 210h8v8h-8zM356 218h8v8h-8zM388 218h8v8h-8zM364 226h24v8h-24zM420 178h24v8h-24zM428 186h8v8h-8zM428 194h8v8h-8zM428 202h8v8h-8zM428 210h8v8h-8zM404 218h8v8h-8zM428 218h8v8h-8zM412 226h16v8h-16zM476 178h16v8h-16zM476 186h16v8h-16zM468 194h16v8h-16zM468 202h8v8h-8zM460 210h16v8h-16zM452 218h16v8h-16zM452 226h16v8h-16zM524 178h16v8h-16zM524 186h16v8h-16zM516 194h16v8h-16zM516 202h8v8h-8zM508 210h16v8h-16zM500 218h16v8h-16zM500 226h16v8h-16zM556 178h24v8h-24zM548 186h8v8h-8zM580 186h8v8h-8zM548 194h8v8h-8zM580 194h8v8h-8zM548 202h8v8h-8zM580 202h8v8h-8zM548 210h8v8h-8zM580 210h8v8h-8zM548 218h8v8h-8zM580 218h8v8h-8zM556 226h24v8h-24zM604 178h32v8h-32zM596 186h8v8h-8zM596 194h8v8h-8zM604 202h24v8h-24zM628 210h8v8h-8zM628 218h8v8h-8zM596 226h32v8h-32z"/>
+<path class="green glow" d="M208 172h8v8h-8zM240 172h8v8h-8zM208 180h16v8h-16zM232 180h16v8h-16zM208 188h8v8h-8zM224 188h8v8h-8zM240 188h8v8h-8zM208 196h8v8h-8zM224 196h8v8h-8zM240 196h8v8h-8zM208 204h8v8h-8zM240 204h8v8h-8zM208 212h8v8h-8zM240 212h8v8h-8zM208 220h8v8h-8zM240 220h8v8h-8zM264 172h24v8h-24zM256 180h8v8h-8zM288 180h8v8h-8zM256 188h8v8h-8zM288 188h8v8h-8zM256 196h40v8h-40zM256 204h8v8h-8zM288 204h8v8h-8zM256 212h8v8h-8zM288 212h8v8h-8zM256 220h8v8h-8zM288 220h8v8h-8zM304 172h8v8h-8zM336 172h8v8h-8zM304 180h16v8h-16zM336 180h8v8h-8zM304 188h8v8h-8zM320 188h8v8h-8zM336 188h8v8h-8zM304 196h8v8h-8zM328 196h16v8h-16zM304 204h8v8h-8zM336 204h8v8h-8zM304 212h8v8h-8zM336 212h8v8h-8zM304 220h8v8h-8zM336 220h8v8h-8zM360 172h24v8h-24zM352 180h8v8h-8zM384 180h8v8h-8zM352 188h8v8h-8zM384 188h8v8h-8zM352 196h8v8h-8zM384 196h8v8h-8zM352 204h8v8h-8zM384 204h8v8h-8zM352 212h8v8h-8zM384 212h8v8h-8zM360 220h24v8h-24zM416 172h24v8h-24zM424 180h8v8h-8zM424 188h8v8h-8zM424 196h8v8h-8zM424 204h8v8h-8zM400 212h8v8h-8zM424 212h8v8h-8zM408 220h16v8h-16zM472 172h16v8h-16zM472 180h16v8h-16zM464 188h16v8h-16zM464 196h8v8h-8zM456 204h16v8h-16zM448 212h16v8h-16zM448 220h16v8h-16zM520 172h16v8h-16zM520 180h16v8h-16zM512 188h16v8h-16zM512 196h8v8h-8zM504 204h16v8h-16zM496 212h16v8h-16zM496 220h16v8h-16zM552 172h24v8h-24zM544 180h8v8h-8zM576 180h8v8h-8zM544 188h8v8h-8zM576 188h8v8h-8zM544 196h8v8h-8zM576 196h8v8h-8zM544 204h8v8h-8zM576 204h8v8h-8zM544 212h8v8h-8zM576 212h8v8h-8zM552 220h24v8h-24zM600 172h32v8h-32zM592 180h8v8h-8zM592 188h8v8h-8zM600 196h24v8h-24zM624 204h8v8h-8zM624 212h8v8h-8zM592 220h32v8h-32z"/>
+</g>
+<g class="fade" style="animation-delay:3.4s"><text x="420" y="258" class="m fg" font-size="14" text-anchor="middle">B.Tech CSE · Machine Learning &amp; Systems</text></g>
+<g class="fade" style="animation-delay:3.9s"><g class="blink" style="animation-delay:4.6s"><path class="amber" d="M322.5 280h12v3h-12zM322.5 283h3v3h-3zM334.5 283h3v3h-3zM322.5 286h3v3h-3zM334.5 286h3v3h-3zM322.5 289h12v3h-12zM322.5 292h3v3h-3zM322.5 295h3v3h-3zM322.5 298h3v3h-3zM340.5 280h12v3h-12zM340.5 283h3v3h-3zM352.5 283h3v3h-3zM340.5 286h3v3h-3zM352.5 286h3v3h-3zM340.5 289h12v3h-12zM340.5 292h3v3h-3zM346.5 292h3v3h-3zM340.5 295h3v3h-3zM349.5 295h3v3h-3zM340.5 298h3v3h-3zM352.5 298h3v3h-3zM358.5 280h15v3h-15zM358.5 283h3v3h-3zM358.5 286h3v3h-3zM358.5 289h12v3h-12zM358.5 292h3v3h-3zM358.5 295h3v3h-3zM358.5 298h15v3h-15zM379.5 280h12v3h-12zM376.5 283h3v3h-3zM376.5 286h3v3h-3zM379.5 289h9v3h-9zM388.5 292h3v3h-3zM388.5 295h3v3h-3zM376.5 298h12v3h-12zM397.5 280h12v3h-12zM394.5 283h3v3h-3zM394.5 286h3v3h-3zM397.5 289h9v3h-9zM406.5 292h3v3h-3zM406.5 295h3v3h-3zM394.5 298h12v3h-12zM433.5 280h12v3h-12zM430.5 283h3v3h-3zM430.5 286h3v3h-3zM433.5 289h9v3h-9zM442.5 292h3v3h-3zM442.5 295h3v3h-3zM430.5 298h12v3h-12zM448.5 280h15v3h-15zM454.5 283h3v3h-3zM454.5 286h3v3h-3zM454.5 289h3v3h-3zM454.5 292h3v3h-3zM454.5 295h3v3h-3zM454.5 298h3v3h-3zM469.5 280h9v3h-9zM466.5 283h3v3h-3zM478.5 283h3v3h-3zM466.5 286h3v3h-3zM478.5 286h3v3h-3zM466.5 289h15v3h-15zM466.5 292h3v3h-3zM478.5 292h3v3h-3zM466.5 295h3v3h-3zM478.5 295h3v3h-3zM466.5 298h3v3h-3zM478.5 298h3v3h-3zM484.5 280h12v3h-12zM484.5 283h3v3h-3zM496.5 283h3v3h-3zM484.5 286h3v3h-3zM496.5 286h3v3h-3zM484.5 289h12v3h-12zM484.5 292h3v3h-3zM490.5 292h3v3h-3zM484.5 295h3v3h-3zM493.5 295h3v3h-3zM484.5 298h3v3h-3zM496.5 298h3v3h-3zM502.5 280h15v3h-15zM508.5 283h3v3h-3zM508.5 286h3v3h-3zM508.5 289h3v3h-3zM508.5 292h3v3h-3zM508.5 295h3v3h-3zM508.5 298h3v3h-3z"/></g></g>
+<text x="46" y="320" class="m faint" font-size="10.5">© 2026 MANOJ KUMAR · github.com/ManojKumar0013</text>
+<text x="794" y="320" class="m faint" font-size="10.5" text-anchor="end">CREDIT 01 · v2026.1113</text>
+</svg>

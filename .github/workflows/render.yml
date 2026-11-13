@@ -2,7 +2,7 @@ name: render profile
 
 on:
   schedule:
-    - cron: "17 3 * * *"        # daily, 03:17 UTC
+    - cron: "17 3 * * *"
   workflow_dispatch:
   push:
     branches: [main]
@@ -23,17 +23,16 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Render animated panels
+      - name: Render MANOJ//OS panels
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PROFILE_LOGIN: ${{ github.repository_owner }}
-          CONTRIB_GOAL: ""
         run: python -m gen
-      - name: Commit refreshed assets
+      - name: Commit refreshed panels
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add assets
+          git add assets README.md
           git diff --cached --quiet && echo "nothing changed" && exit 0
           git commit -m "render: refresh panels $(date -u +%Y-%m-%d)"
           git pull --rebase -X theirs origin main
