@@ -4,3 +4,10 @@ preview.html
 *.tmp
 test_reports/
 .screenshots/
+.env
+.env.*
+*.env
+credentials.json
+*.pem
+*.key
+.credentials
