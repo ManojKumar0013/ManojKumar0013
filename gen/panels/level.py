@@ -34,7 +34,7 @@ def render(st, th, cfg):
     body.append(f'<rect x="24" y="100" width="{W - 48}" height="{G - 100 + 58}" rx="10" fill="{th["sky"]}" stroke="{th["line"]}"/>')
     for hx, hr in ((120, 70), (300, 44), (520, 86), (700, 52)):
         body.append(f'<path d="M{hx - hr} {G}a{hr} {hr * .7} 0 0 1 {hr * 2} 0z" fill="{th["line"]}" fill-opacity=".55"/>')
-    for i, (cx0, cy0) in enumerate(((140, 128), (430, 116), (650, 136))):
+    for i, (cx0, cy0) in enumerate(((140, 112), (430, 108), (650, 114))):
         body.append(f'<g class="cloud" style="animation-delay:{-i * 7}s"><path d="M{cx0} {cy0}h28v-6h12v6h10v8h-58v-8z" fill="{th["line2"]}" fill-opacity=".7"/></g>')
     bricks = []
     for c in range(n):
@@ -70,7 +70,7 @@ def render(st, th, cfg):
                      f'{sprite_paths(COIN, cx[c] - 6, top[c] - 22, 1.5, {"c": ".amber", "d": ".amber2"})}</g></g>')
     body.append(f'<g class="fade" style="animation-delay:.6s">{"".join(coins)}</g>')
 
-    fx, fy = cx[cw], top[cw]
+    fx, fy = cx[cw] + 8, top[cw]
     body.append(f'<line x1="{fx}" y1="{fy}" x2="{fx}" y2="{fy - 62}" stroke="{th["dim"]}" stroke-width="2"/>'
                 f'<path d="M{fx + 1} {fy - 62}l18 7l-18 7z" class="mag"/>' + t(fx, fy - 68, "TODAY", "mag", 9.5, "middle", 600))
 

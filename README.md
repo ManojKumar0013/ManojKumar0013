@@ -6,7 +6,7 @@
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/dark/boot.svg">
-  <img src="assets/light/boot.svg" width="100%" alt="MANOJ//OS boot screen — B.Tech CSE · Machine Learning & Systems. PRESS START">
+  <img src="assets/light/boot.svg" width="100%" alt="MANOJ//OS boot screen — B.Tech CSE · Machine Learning &amp; Systems. PRESS START">
 </picture>
 
 <picture>

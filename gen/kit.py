@@ -8,13 +8,13 @@ MONO = "'JetBrains Mono','SF Mono','Cascadia Code','Fira Code',Menlo,Consolas,'D
 THEMES = {
     "dark": {
         "bg": "#07090b", "screen": "#0a0e11", "card": "#0d1215", "bar": "#0c1013",
-        "line": "#1a2328", "line2": "#243037", "fg": "#e3ece7", "dim": "#8a9892", "faint": "#3a474d",
+        "line": "#1a2328", "line2": "#243037", "fg": "#e3ece7", "dim": "#8a9892", "faint": "#56656b",
         "green": "#6ff7b0", "green2": "#1f7a52", "amber": "#ffb547", "amber2": "#7a5a22",
         "mag": "#ff5ca8", "sky": "#0f1a1d", "glow": 0.18,
     },
     "light": {
         "bg": "#f7f5ef", "screen": "#fbfaf6", "card": "#ffffff", "bar": "#efebe2",
-        "line": "#ddd7ca", "line2": "#cfc8b8", "fg": "#18211c", "dim": "#626c66", "faint": "#c9c2b2",
+        "line": "#ddd7ca", "line2": "#cfc8b8", "fg": "#18211c", "dim": "#626c66", "faint": "#968e7c",
         "green": "#0a8a55", "green2": "#9fd8bd", "amber": "#b56a00", "amber2": "#ecd2a6",
         "mag": "#c2185b", "sky": "#eef3ee", "glow": 0.0,
     },

@@ -2,3 +2,5 @@ __pycache__/
 *.pyc
 preview.html
 *.tmp
+test_reports/
+.screenshots/

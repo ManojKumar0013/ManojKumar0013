@@ -5,7 +5,7 @@
 </defs>
 <style>
 .m{font-family:'JetBrains Mono','SF Mono','Cascadia Code','Fira Code',Menlo,Consolas,'DejaVu Sans Mono','Liberation Mono',monospace}
-.fg{fill:#18211c}.dim{fill:#626c66}.faint{fill:#c9c2b2}.green{fill:#0a8a55}.green2{fill:#9fd8bd}
+.fg{fill:#18211c}.dim{fill:#626c66}.faint{fill:#968e7c}.green{fill:#0a8a55}.green2{fill:#9fd8bd}
 .amber{fill:#b56a00}.amber2{fill:#ecd2a6}.mag{fill:#c2185b}.bgc{fill:#f7f5ef}.card{fill:#ffffff}.screen{fill:#fbfaf6}
 .glow{filter:url(#glow)}
 .fb{transform-box:fill-box;transform-origin:center}
