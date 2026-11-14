@@ -28,17 +28,17 @@ I’m a B.Tech Computer Science student working toward AI/ML engineering roles. 
   <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="assets/dark/skills-mobile.svg">
   <source media="(max-width: 600px)" srcset="assets/light/skills-mobile.svg">
   <source media="(prefers-color-scheme: dark)" srcset="assets/dark/skills.svg">
-  <img src="assets/light/skills.svg" width="840" alt="Player Select. C: in training; PYTHON: 3 public repositories with evidence; JAVA: 1 public repositories with evidence; REACT: in training; KOTLIN: in training; JAVASCRIPT: 6 public repositories with evidence; JUPYTER: in training; PYTORCH: in training; SCIKIT-LEARN: in training; CUDA / GPU: in training">
+  <img src="assets/light/skills.svg" width="840" alt="Player Select. C: in training; PYTHON: 3 public repositories with evidence; JAVA: 1 public repositories with evidence; REACT: 1 public repositories with evidence; KOTLIN: in training; JAVASCRIPT: 5 public repositories with evidence; JUPYTER: in training; PYTORCH: in training; SCIKIT-LEARN: in training; CUDA / GPU: in training">
 </picture>
 
 <picture>
   <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="assets/dark/achievements-mobile.svg">
   <source media="(max-width: 600px)" srcset="assets/light/achievements-mobile.svg">
   <source media="(prefers-color-scheme: dark)" srcset="assets/dark/achievements.svg">
-  <img src="assets/light/achievements.svg" width="840" alt="Achievements. Best streak: 4 days. 9 public projects and 8 languages.">
+  <img src="assets/light/achievements.svg" width="840" alt="Achievements. Best streak: 4 days. 8 public projects and 8 languages.">
 </picture>
 
-[Latest public commit](https://github.com/ManojKumar0013/portfolio1/commit/2bd21cce223646ff038de24c015d7720c0115bcc) · [Earliest public PR found](https://github.com/kitlord/First-issue/pull/61)
+[Latest public commit](https://github.com/ManojKumar0013/portfolio/commit/2bd21cce223646ff038de24c015d7720c0115bcc) · [Earliest public PR found](https://github.com/kitlord/First-issue/pull/61)
 
 <picture>
   <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="assets/dark/stages-mobile.svg">
@@ -49,12 +49,12 @@ I’m a B.Tech Computer Science student working toward AI/ML engineering roles. 
 
 | Project | What it does |
 | --- | --- |
-| [Portfolio](https://github.com/ManojKumar0013/portfolio1) | Interactive project showcase with a 3D robotic arm. |
 | [HungryHub](https://github.com/ManojKumar0013/HungryHub-Online-Food-Ordering-System-) | Multi-role food ordering with a PostgreSQL data model. |
 | [ICEPOPS](https://github.com/ManojKumar0013/icepop) | Online ordering, loyalty and live order tracking. |
 | [NexTune](https://github.com/ManojKumar0013/EMOTION_BASED_MUSIC_WEBSITE) | Mood-based music discovery with the Jamendo API. |
 | [Clinic Scheduler](https://github.com/ManojKumar0013/23CSE111_CLINIC_APPOINTEMENT_SYSTEM_C4) | Java team project for appointments and schedules. |
 | [Time Tick Quiz](https://github.com/ManojKumar0013/Time-Tick-Quiz) | Python quiz project. |
+| [portfolio](https://github.com/ManojKumar0013/portfolio) | Public GitHub project |
 
 <a href="https://manojkumar0013.github.io/ManojKumar0013/game/">
 <picture>
