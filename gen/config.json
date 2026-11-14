@@ -75,51 +75,6 @@
       "languages": [
         "JavaScript"
       ]
-    },
-    {
-      "key": "jupyter",
-      "name": "JUPYTER",
-      "role": "Notebook experiments",
-      "languages": [
-        "Jupyter Notebook"
-      ],
-      "topics": [
-        "jupyter",
-        "jupyter-notebook"
-      ]
-    },
-    {
-      "key": "pytorch",
-      "name": "PYTORCH",
-      "role": "Deep learning",
-      "languages": [],
-      "topics": [
-        "pytorch",
-        "torch"
-      ]
-    },
-    {
-      "key": "sklearn",
-      "name": "SCIKIT-LEARN",
-      "role": "Model evaluation",
-      "languages": [],
-      "topics": [
-        "scikit-learn",
-        "sklearn"
-      ]
-    },
-    {
-      "key": "cuda",
-      "name": "CUDA / GPU",
-      "role": "Local GPU work",
-      "languages": [
-        "Cuda"
-      ],
-      "topics": [
-        "cuda",
-        "gpu-computing",
-        "local-gpu"
-      ]
     }
   ],
   "max_projects": 6,
@@ -190,5 +145,10 @@
     "portfolio": [
       "frontend/package.json"
     ]
-  }
+  },
+  "lessons": [
+    "I learned to separate the data model from the presentation. The same contribution calendar drives the README map and the playable level.",
+    "I learned to make browser gameplay reproducible by recording input changes per tick. The server can recompute the score independently from the browser.",
+    "I learned to treat missing evidence as a data state. The profile distinguishes a learning goal from a public repo signal and tests how the pipeline handles missing or malformed inputs."
+  ]
 }

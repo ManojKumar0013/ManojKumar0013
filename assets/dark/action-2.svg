@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="90" height="34" viewBox="0 0 90 34" role="img">
+<title>Email</title>
+<style>.arrow{animation:appear .45s ease-out}@keyframes appear{from{opacity:.65}}@media(prefers-reduced-motion:reduce){*{animation:none!important}}</style>
+<desc>Open Email</desc>
+<rect x=".5" y=".5" width="89" height="33" rx="7" fill="#251c0d" stroke="#956b28"/>
+<rect x="10" y="13" width="7" height="7" rx="1" fill="#ffcc64"/>
+<text x="23" y="22" class="m " font-size="13" font-weight="700" fill="#fff0c9" font-family="monospace">Email</text>
+<g class="arrow"><path d="M72 14h6v6m0-6-6 6" fill="none" stroke="#ffcc64" stroke-width="1.5"/></g>
+</svg>
