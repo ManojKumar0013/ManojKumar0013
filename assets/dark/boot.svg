@@ -40,7 +40,7 @@
 <rect x="42" y="72" width="396.0" height="16" class="screen type" style="animation-delay:0.18s"/>
 <text x="46" y="101" class="m fg" font-size="11.5" xml:space="preserve"><tspan class="green">[ OK ]</tspan> <tspan class="dim">MOUNT</tspan> /home/manojkumar0013 · 8 repos</text>
 <rect x="42" y="89" width="396.0" height="16" class="screen type" style="animation-delay:0.40s"/>
-<text x="46" y="118" class="m fg" font-size="11.5" xml:space="preserve"><tspan class="green">[ OK ]</tspan> <tspan class="dim">LOAD </tspan> skills.pkg · 10 modules</text>
+<text x="46" y="118" class="m fg" font-size="11.5" xml:space="preserve"><tspan class="green">[ OK ]</tspan> <tspan class="dim">LOAD </tspan> skills.pkg · 6 modules</text>
 <rect x="42" y="106" width="396.0" height="16" class="screen type" style="animation-delay:0.62s"/>
 <text x="46" y="135" class="m fg" font-size="11.5" xml:space="preserve"><tspan class="green">[ OK ]</tspan> <tspan class="dim">SYNC </tspan> github · 56 contributions in 2026</text>
 <rect x="42" y="123" width="396.0" height="16" class="screen type" style="animation-delay:0.84s"/>

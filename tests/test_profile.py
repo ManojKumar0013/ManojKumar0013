@@ -4,7 +4,7 @@ from hashlib import sha256
 from unittest import TestCase
 from xml.etree import ElementTree
 
-from gen.__main__ import LEVEL, README, ROOT, art_paths, render_files, validate
+from gen.__main__ import LEVEL, README, ROOT, art_paths, referenced_art, render_files, validate
 from gen.kit import fit, palette, wrap
 from gen.stats import CONFIG, CalendarParser, complete_calendar, shape, skill_levels, streaks, utc_day
 
@@ -41,8 +41,6 @@ class StatsTests(TestCase):
         repo = repository("typescript", {"TypeScript": 40, "Jupyter Notebook": 10})
         skills = {skill["key"]: skill for skill in skill_levels([repo], CONFIG)}
         self.assertTrue(skills["react"]["training"])
-        self.assertFalse(skills["jupyter"]["training"])
-        self.assertEqual(skills["pytorch"]["level"], 0)
         from_topics = repository("react", {}, topics=["reactjs"])
         skills = {skill["key"]: skill for skill in skill_levels([from_topics] * 12, CONFIG)}
         self.assertEqual(skills["react"]["level"], CONFIG["level_cap"])
@@ -89,9 +87,16 @@ class RenderTests(TestCase):
         self.assertEqual(result, render_files(stats, source, config))
         validate(result)
         encoded = "".join(result[path] for path in sorted(result))
-        self.assertEqual(sha256(encoded.encode()).hexdigest(), "c8311da7924c1f6a7d44e00022f005a991658b7dc89f8bc48aedcf9454aaa43a")
+        self.assertEqual(sha256(encoded.encode()).hexdigest(), "cf0eb1a3ee7b9169a0f349a316cb442d5d897df83faef1f3ae206b2f5ca91622")
         self.assertIn("IN TRAINING", result[README].upper())
         self.assertEqual(len(art_paths()), 32)
+        self.assertNotIn("training.svg", result[README])
+        self.assertNotIn("achievements.svg", result[README])
+        for skill in ("Jupyter", "PyTorch", "scikit-learn", "CUDA / GPU"):
+            self.assertNotIn(skill.casefold(), result[README].split("Player Select", 1)[1].split("</picture>", 1)[0].casefold())
+        self.assertIn('href="https://github.com/example/My_Very_Long-Project_Name"', result[README])
+        self.assertIn("project-1-mobile.svg", result[README])
+        self.assertIn("footer.svg", result[README])
         self.assertNotEqual(palette("dark", config, "2026-12-01")["green"],
                             palette("dark", config, "2026-11-01")["green"])
         for path in art_paths():
@@ -103,5 +108,5 @@ class RenderTests(TestCase):
             validate(malformed)
 
     def test_published_snapshot(self):
-        paths = {*art_paths(), README, LEVEL}
+        paths = {*referenced_art((ROOT / README).read_text(encoding="utf-8")), README, LEVEL}
         validate({path: (ROOT / path).read_text(encoding="utf-8") for path in paths})
