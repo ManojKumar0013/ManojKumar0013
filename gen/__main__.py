@@ -62,9 +62,17 @@ def buttons(links: list[tuple[str, str]], start: int = 0) -> str:
 def profile_block(st: dict, config: dict) -> str:
     game_url = config["game"]["url"]
     links = actions(config)
-    projects = [picture(f"project-{i}", f"{project['title'] or project['name']}. "
-                        f"{project['desc'] or 'Public GitHub project'}. Open repository.", project["url"])
-                for i, project in enumerate(st["projects"], 1)]
+    projects = []
+    for i, project in enumerate(st["projects"], 1):
+        name = project["title"] or project["name"]
+        alt = f"{name}. {project['desc'] or 'Public GitHub project'}. Open repository."
+        projects.append(
+            f'<a href="{escape(project["url"])}"><picture>'
+            f'<source media="(prefers-color-scheme: dark)" srcset="assets/dark/project-{i}.svg">'
+            f'<img src="assets/light/project-{i}.svg" width="246" alt="{escape(alt)}"></picture></a>'
+        )
+    rows = ['<p align="center">' + ' &nbsp; '.join(projects[i:i + 3]) + '</p>'
+            for i in range(0, len(projects), 3)]
     return "\n\n".join([
         f"# {config['display_name']}",
         picture("boot", f'{config["logo"]} boot screen. Press start to play the contribution platformer.', game_url),
@@ -73,8 +81,8 @@ def profile_block(st: dict, config: dict) -> str:
         picture("skills", "Player Select. " + "; ".join(
             f"{sk['name']}: {'in training' if sk['training'] else str(sk['repos']) + ' public repositories with evidence'}"
             for sk in st["skills"])),
-        picture("stages", "Unlocked Stages. Open a gold project card below to view its repository."),
-        *projects,
+        picture("stages", "Unlocked Stages. Select a cartridge to open its repository."),
+        *rows,
         picture("level", f"World {st['year']}. Taller platforms show busier weeks. Click to play.", game_url),
         picture("scores", f"High Scores. {st['contribs']} contributions, {st['streak']}-day current streak, "
                 f"{st['stars']} project stars and {st['followers']} followers."),
@@ -97,17 +105,17 @@ def render_files(st: dict, readme: str, config: dict = CONFIG) -> dict[Path, str
     for theme in THEMES:
         for narrow in (False, True):
             th = palette(theme, config, st["today"], narrow)
-            th["mode"] = theme
             suffix = "-mobile" if narrow else ""
             for name, panel in PANELS.items():
                 renderer = panel if callable(panel) else panel.render
                 if narrow:
                     renderer = mobile.RENDER.get(name, renderer)
                 files[Path(f"assets/{theme}/{name}{suffix}.svg")] = renderer(st, th, config)
-            for i, project in enumerate(st["projects"], 1):
-                files[Path(f"assets/{theme}/project-{i}{suffix}.svg")] = gold.project(project, i, th)
+        th = palette(theme, config, st["today"])
+        for i, project in enumerate(st["projects"], 1):
+            files[Path(f"assets/{theme}/project-{i}.svg")] = stages.cartridge(project, i, th)
         for i, (label, _) in enumerate(actions(config)):
-            files[Path(f"assets/{theme}/action-{i}.svg")] = gold.button(label, {"mode": theme})
+            files[Path(f"assets/{theme}/action-{i}.svg")] = gold.button(label, th)
     return files
 
 
@@ -128,7 +136,7 @@ def validate(files: dict[Path, str]) -> None:
         if len(source.encode("utf-8")) > BUDGET:
             raise ValueError(f"{path} exceeds {BUDGET:,} bytes")
         doc = ElementTree.fromstring(source)
-        if doc.tag != "{http://www.w3.org/2000/svg}svg" or not doc.findtext("{http://www.w3.org/2000/svg}title") or len(doc) < 6:
+        if doc.tag != "{http://www.w3.org/2000/svg}svg" or not doc.findtext("{http://www.w3.org/2000/svg}title") or len(doc) < 4:
             raise ValueError(f"{path} has no usable artwork")
         if "prefers-reduced-motion" not in source or "infinite" in source:
             raise ValueError(f"{path} violates the motion policy")

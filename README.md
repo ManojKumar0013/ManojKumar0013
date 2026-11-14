@@ -31,62 +31,12 @@
   <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="assets/dark/stages-mobile.svg">
   <source media="(max-width: 600px)" srcset="assets/light/stages-mobile.svg">
   <source media="(prefers-color-scheme: dark)" srcset="assets/dark/stages.svg">
-  <img src="assets/light/stages.svg" width="840" alt="Unlocked Stages. Open a gold project card below to view its repository.">
+  <img src="assets/light/stages.svg" width="840" alt="Unlocked Stages. Select a cartridge to open its repository.">
 </picture>
 
-<a href="https://github.com/ManojKumar0013/portfolio">
-<picture>
-  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="assets/dark/project-1-mobile.svg">
-  <source media="(max-width: 600px)" srcset="assets/light/project-1-mobile.svg">
-  <source media="(prefers-color-scheme: dark)" srcset="assets/dark/project-1.svg">
-  <img src="assets/light/project-1.svg" width="840" alt="Portfolio. Interactive project showcase with a 3D robotic arm.. Open repository.">
-</picture>
-</a>
+<p align="center"><a href="https://github.com/ManojKumar0013/portfolio"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/dark/project-1.svg"><img src="assets/light/project-1.svg" width="246" alt="Portfolio. Interactive project showcase with a 3D robotic arm.. Open repository."></picture></a> &nbsp; <a href="https://github.com/ManojKumar0013/HungryHub-Online-Food-Ordering-System-"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/dark/project-2.svg"><img src="assets/light/project-2.svg" width="246" alt="HungryHub. Multi-role food ordering with a PostgreSQL data model.. Open repository."></picture></a> &nbsp; <a href="https://github.com/ManojKumar0013/icepop"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/dark/project-3.svg"><img src="assets/light/project-3.svg" width="246" alt="ICEPOPS. Online ordering, loyalty and live order tracking.. Open repository."></picture></a></p>
 
-<a href="https://github.com/ManojKumar0013/HungryHub-Online-Food-Ordering-System-">
-<picture>
-  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="assets/dark/project-2-mobile.svg">
-  <source media="(max-width: 600px)" srcset="assets/light/project-2-mobile.svg">
-  <source media="(prefers-color-scheme: dark)" srcset="assets/dark/project-2.svg">
-  <img src="assets/light/project-2.svg" width="840" alt="HungryHub. Multi-role food ordering with a PostgreSQL data model.. Open repository.">
-</picture>
-</a>
-
-<a href="https://github.com/ManojKumar0013/icepop">
-<picture>
-  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="assets/dark/project-3-mobile.svg">
-  <source media="(max-width: 600px)" srcset="assets/light/project-3-mobile.svg">
-  <source media="(prefers-color-scheme: dark)" srcset="assets/dark/project-3.svg">
-  <img src="assets/light/project-3.svg" width="840" alt="ICEPOPS. Online ordering, loyalty and live order tracking.. Open repository.">
-</picture>
-</a>
-
-<a href="https://github.com/ManojKumar0013/EMOTION_BASED_MUSIC_WEBSITE">
-<picture>
-  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="assets/dark/project-4-mobile.svg">
-  <source media="(max-width: 600px)" srcset="assets/light/project-4-mobile.svg">
-  <source media="(prefers-color-scheme: dark)" srcset="assets/dark/project-4.svg">
-  <img src="assets/light/project-4.svg" width="840" alt="NexTune. Mood-based music discovery with the Jamendo API.. Open repository.">
-</picture>
-</a>
-
-<a href="https://github.com/ManojKumar0013/23CSE111_CLINIC_APPOINTEMENT_SYSTEM_C4">
-<picture>
-  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="assets/dark/project-5-mobile.svg">
-  <source media="(max-width: 600px)" srcset="assets/light/project-5-mobile.svg">
-  <source media="(prefers-color-scheme: dark)" srcset="assets/dark/project-5.svg">
-  <img src="assets/light/project-5.svg" width="840" alt="Clinic Scheduler. Java team project for appointments and schedules.. Open repository.">
-</picture>
-</a>
-
-<a href="https://github.com/ManojKumar0013/Time-Tick-Quiz">
-<picture>
-  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="assets/dark/project-6-mobile.svg">
-  <source media="(max-width: 600px)" srcset="assets/light/project-6-mobile.svg">
-  <source media="(prefers-color-scheme: dark)" srcset="assets/dark/project-6.svg">
-  <img src="assets/light/project-6.svg" width="840" alt="Time Tick Quiz. Python quiz project.. Open repository.">
-</picture>
-</a>
+<p align="center"><a href="https://github.com/ManojKumar0013/EMOTION_BASED_MUSIC_WEBSITE"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/dark/project-4.svg"><img src="assets/light/project-4.svg" width="246" alt="NexTune. Mood-based music discovery with the Jamendo API.. Open repository."></picture></a> &nbsp; <a href="https://github.com/ManojKumar0013/23CSE111_CLINIC_APPOINTEMENT_SYSTEM_C4"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/dark/project-5.svg"><img src="assets/light/project-5.svg" width="246" alt="Clinic Scheduler. Java team project for appointments and schedules.. Open repository."></picture></a> &nbsp; <a href="https://github.com/ManojKumar0013/Time-Tick-Quiz"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/dark/project-6.svg"><img src="assets/light/project-6.svg" width="246" alt="Time Tick Quiz. Python quiz project.. Open repository."></picture></a></p>
 
 <a href="https://manojkumar0013.github.io/ManojKumar0013/game/">
 <picture>
@@ -117,7 +67,7 @@
   <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="assets/dark/footer-mobile.svg">
   <source media="(max-width: 600px)" srcset="assets/light/footer-mobile.svg">
   <source media="(prefers-color-scheme: dark)" srcset="assets/dark/footer.svg">
-  <img src="assets/light/footer.svg" width="840" alt="What I learned building this. I learned to separate the data model from the presentation. The same contribution calendar drives the README map and the playable level. I learned to make browser gameplay reproducible by recording input changes per tick. The server can recompute the score independently from the browser. I learned to treat missing evidence as a data state. The profile distinguishes a learning goal from a public repo signal and tests how the pipeline handles missing or malformed inputs.">
+  <img src="assets/light/footer.svg" width="840" alt="What I learned building this. One GitHub calendar powers both the README map and the playable level. Recording inputs per tick lets the server replay runs and verify scores. The profile tests missing or malformed data before publishing a snapshot.">
 </picture>
 
 <!-- PROFILE:END -->

@@ -147,8 +147,8 @@
     ]
   },
   "lessons": [
-    "I learned to separate the data model from the presentation. The same contribution calendar drives the README map and the playable level.",
-    "I learned to make browser gameplay reproducible by recording input changes per tick. The server can recompute the score independently from the browser.",
-    "I learned to treat missing evidence as a data state. The profile distinguishes a learning goal from a public repo signal and tests how the pipeline handles missing or malformed inputs."
+    "One GitHub calendar powers both the README map and the playable level.",
+    "Recording inputs per tick lets the server replay runs and verify scores.",
+    "The profile tests missing or malformed data before publishing a snapshot."
   ]
 }

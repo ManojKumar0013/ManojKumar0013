@@ -4,7 +4,6 @@ from math import ceil, sqrt
 from ..kit import chrome, fit, t, wrap
 from ..pixel import COIN, RUNNER, SPRITES, ptext, sprite_paths
 from . import level, skills
-from .stages import pretty
 
 
 def panel(th, title, label, items, body, height, css=""):
@@ -41,23 +40,6 @@ def roster(st, th, cfg):
         body.append(t(22,117,"No skills configured","dim",17))
     return panel(th,"player_select.exe","Player Select. Levels count public repository evidence.",heading("PLAYER SELECT"),
                  body, max(151,105+81*len(st["skills"])))
-
-
-def stages(st, th, cfg):
-    body = []
-    for i, project in enumerate(st["projects"]):
-        y = 100 + i * 128
-        title = fit(project["title"] or pretty(project["name"]), 30)
-        body.append(f'<g class="rise" style="animation-delay:{i*.10:.2f}s"><rect x="14" y="{y}" width="392" height="116" rx="9" class="card" stroke="{th["line"]}"/>')
-        body.append(t(30,y+26,f'STAGE {i+1:02d}',"green",15,weight=700))
-        body.append(t(30,y+54,title,"fg",19,weight=700))
-        for j,line in enumerate(wrap(project["desc"] or "Public GitHub repository",34,2)):
-            body.append(t(30,y+80+j*19,line,"dim",16))
-        body.append("</g>")
-    if not body:
-        body.append(t(22,117,"No public stages available","dim",17))
-    return panel(th,"stages.rom","Featured projects. Source links appear below the panel.",heading("UNLOCKED STAGES"),
-                 body, max(151,102+128*len(st["projects"])))
 
 
 def scores(st, th, cfg):
@@ -105,4 +87,4 @@ def contact(st, th, cfg):
 
 
 RENDER = {"boot": boot, "skills": roster, "scores": scores,
-          "level": world, "stages": stages, "contact": contact}
+          "level": world, "contact": contact}
