@@ -1,9 +1,7 @@
 """Unlocked Stages: featured repos as game cartridges."""
 import re
-from ..kit import W, chrome, t, header, fit, wrap, esc
+from ..kit import BASE_CSS, MONO, chrome, esc, fit, t, wrap
 from ..pixel import ptext
-
-CW, CH, GAP, X0, Y0 = 254, 186, 14, 24, 104
 
 
 def pretty(name):
@@ -16,55 +14,41 @@ def ago(d):
     return "today" if d <= 0 else f"{d}d ago" if d < 60 else f"{d // 30}mo ago"
 
 
-def cart(i, p, th):
-    x = X0 + (i % 3) * (CW + GAP)
-    y = Y0 + (i // 3) * (CH + GAP)
-    k = 16
-    shell = (f"M{x + 10} {y}H{x + CW - k}L{x + CW} {y + k}V{y + CH - 10}a10 10 0 0 1 -10 10"
-             f"H{x + 10}a10 10 0 0 1 -10 -10V{y + 10}a10 10 0 0 1 10 -10z")
-    desc = p["desc"] or f"{p['lang'] or 'Code'} build · {p['kb']:,} KB · {p['n_langs']} language{'s' if p['n_langs'] != 1 else ''}"
-    lines = wrap(desc, 30, 3)
-    lx, ly, lw, lh = x + 14, y + 26, CW - 28, 112
-    o = [f'<g class="rise" style="animation-delay:{0.15 + i * 0.12:.2f}s">',
-         f'<path d="{shell}" class="card" stroke="{th["line"]}"/>',
-         "".join(f'<rect x="{x + 22 + g * 8}" y="{y + 9}" width="4" height="9" rx="1" fill="{th["line2"]}"/>' for g in range(5)),
-         t(x + CW - 24, y + 17, f"STAGE {i + 1:02d}", "dim", 9.5, "end"),
-         f'<rect x="{lx}" y="{ly}" width="{lw}" height="{lh}" rx="6" fill="{p["color"]}" fill-opacity=".1" stroke="{p["color"]}" stroke-opacity=".45"/>',
-         f'<rect x="{lx}" y="{ly}" width="{lw}" height="6" rx="3" fill="{p["color"]}"/>',
-         ]
-    title = wrap(p["title"] or pretty(p["name"]), 26, 2)
-    for j, ln in enumerate(title):
-        o.append(t(lx + 12, ly + 30 + j * 17, ln, "fg", 13.5, weight=700))
-    for j, ln in enumerate(lines):
-        o.append(t(lx + 12, ly + 29 + len(title) * 17 + j * 14, ln, "dim", 11))
-    by = y + 158
-    o.append(f'<circle cx="{x + 20}" cy="{by - 4}" r="4.5" fill="{p["color"]}"/>')
-    o.append(t(x + 31, by, fit(p["lang"] or "—", 12), "fg", 11))
-    if p["stars"]:
-        o.append(f'<path d="{star(x + 140, by - 4, 5.5)}" class="amber"/>' + t(x + 150, by, str(p["stars"]), "fg", 11))
-    o.append(t(x + CW - 16, by, ago(p["days"]), "dim", 11, "end"))
-    o.append("".join(f'<rect x="{x + 26 + g * 22}" y="{y + CH - 5}" width="12" height="3" rx="1" fill="{th["line2"]}"/>' for g in range(10)))
-    o.append("</g>")
-    return "".join(o)
-
-
-def star(cx, cy, r):
-    from math import cos, sin, pi
-    pts = []
-    for k in range(10):
-        a = -pi / 2 + k * pi / 5
-        rr = r if k % 2 == 0 else r * .45
-        pts.append(f"{cx + rr * cos(a):.2f} {cy + rr * sin(a):.2f}")
-    return "M" + "L".join(pts) + "z"
+def cartridge(project: dict, index: int, theme: dict) -> str:
+    """Render a standalone cartridge so the README can link the whole tile."""
+    title = project["title"] or pretty(project["name"])
+    desc = project["desc"] or "Public GitHub project"
+    color = esc(project["color"])
+    lines = wrap(desc, 32, 2)
+    titles = wrap(title, 27, 2)
+    body = [
+        f'<path d="M10 .5H228l17 17V119a9 9 0 0 1-9 9H10a9 9 0 0 1-9-9V10a9 9 0 0 1 9-9.5Z" fill="{theme["card"]}" stroke="{theme["line"]}"/>',
+        f'<rect x="12" y="25" width="221" height="79" rx="5" fill="{color}" fill-opacity=".1" stroke="{color}" stroke-opacity=".45"/>',
+        f'<rect x="12" y="25" width="221" height="5" rx="2" fill="{color}"/>',
+        t(227, 17, f"STAGE {index:02d}", size=9, anchor="end"),
+        f'<path d="M221 36h7v7m0-7-7 7" fill="none" stroke="{theme["dim"]}" stroke-width="1.3"/>',
+        *(t(22, 47 + j * 14, line, size=12, weight=700) for j, line in enumerate(titles)),
+        *(t(22, 48 + len(titles) * 14 + j * 14, line, "dim", 11) for j, line in enumerate(lines)),
+        f'<circle cx="17" cy="117" r="3.5" fill="{color}"/>',
+        t(26, 121, fit(project["lang"] or "Source", 20), size=10),
+        t(229, 121, ago(project["days"]), "dim", 10, "end"),
+    ]
+    body.extend(f'<rect x="{17 + slot * 7}" y="10" width="3" height="8" rx="1" fill="{theme["line2"]}"/>'
+                for slot in range(5))
+    return f"""<svg xmlns="http://www.w3.org/2000/svg" width="246" height="129" viewBox="0 0 246 129" role="img">
+<title>{esc(title)} · Open repository</title>
+<desc>{esc(desc)}</desc>
+<style>{BASE_CSS % dict(theme, mono=MONO)}</style>
+<g class="rise">{''.join(body)}</g>
+</svg>
+"""
 
 
 def render(st, th, cfg):
-    ps = st["projects"]
-    rows = max(1, (len(ps) + 2) // 3)
-    h = Y0 + rows * CH + (rows - 1) * GAP + 26
-    body = [header(ptext("UNLOCKED STAGES", 28, 62, 3, "fg"), f"{len(ps)} of {st['own_repos']} repos · featured builds")]
-    body += [cart(i, p, th) for i, p in enumerate(ps)]
-    if not ps:
-        body.append(t(W / 2, Y0 + 90, "no public stages yet — first one unlocks soon", "dim", 13, "middle"))
-    return chrome(th, h, "unlocked_stages.rom", f"{len(ps)} cartridges loaded", "\n".join(body), "",
-                  "Projects: " + ", ".join(p["name"] for p in ps))
+    count = len(st["projects"])
+    body = ptext("UNLOCKED STAGES", 24, 50, 2.65, "fg")
+    if not count:
+        body += t(24, 88, "No featured public projects", "dim", 14)
+    return chrome(th, 104 if not count else 83, "unlocked_stages.rom",
+                  f"{count} {'cartridge' if count == 1 else 'cartridges'}", body,
+                  label="Unlocked Stages")

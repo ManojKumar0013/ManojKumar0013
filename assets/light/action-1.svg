@@ -1,9 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="110" height="34" viewBox="0 0 110 34" role="img">
+<svg xmlns="http://www.w3.org/2000/svg" width="110" height="32" viewBox="0 0 110 32" role="img">
 <title>LinkedIn</title>
 <style>.arrow{animation:appear .45s ease-out}@keyframes appear{from{opacity:.65}}@media(prefers-reduced-motion:reduce){*{animation:none!important}}</style>
 <desc>Open LinkedIn</desc>
-<rect x=".5" y=".5" width="109" height="33" rx="7" fill="#fff5cf" stroke="#bc8726"/>
-<rect x="10" y="13" width="7" height="7" rx="1" fill="#7c4908"/>
-<text x="23" y="22" class="m " font-size="13" font-weight="700" fill="#2e200b" font-family="monospace">LinkedIn</text>
-<g class="arrow"><path d="M92 14h6v6m0-6-6 6" fill="none" stroke="#7c4908" stroke-width="1.5"/></g>
+<rect x=".5" y=".5" width="109" height="31" rx="7" fill="#f7f5ef" stroke="#ddd7ca"/>
+<rect x="10" y="13" width="7" height="7" rx="1" fill="#875100"/>
+<text x="23" y="22" class="m " font-size="12" font-weight="700" fill="#18211c" font-family="monospace">LinkedIn</text>
+<g class="arrow"><path d="M92 14h6v6m0-6-6 6" fill="none" stroke="#875100" stroke-width="1.5"/></g>
 </svg>

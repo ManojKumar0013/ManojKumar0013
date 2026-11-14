@@ -1,9 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="120" height="34" viewBox="0 0 120 34" role="img">
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="32" viewBox="0 0 120 32" role="img">
 <title>Portfolio</title>
 <style>.arrow{animation:appear .45s ease-out}@keyframes appear{from{opacity:.65}}@media(prefers-reduced-motion:reduce){*{animation:none!important}}</style>
 <desc>Open Portfolio</desc>
-<rect x=".5" y=".5" width="119" height="33" rx="7" fill="#fff5cf" stroke="#bc8726"/>
-<rect x="10" y="13" width="7" height="7" rx="1" fill="#7c4908"/>
-<text x="23" y="22" class="m " font-size="13" font-weight="700" fill="#2e200b" font-family="monospace">Portfolio</text>
-<g class="arrow"><path d="M102 14h6v6m0-6-6 6" fill="none" stroke="#7c4908" stroke-width="1.5"/></g>
+<rect x=".5" y=".5" width="119" height="31" rx="7" fill="#f7f5ef" stroke="#ddd7ca"/>
+<rect x="10" y="13" width="7" height="7" rx="1" fill="#875100"/>
+<text x="23" y="22" class="m " font-size="12" font-weight="700" fill="#18211c" font-family="monospace">Portfolio</text>
+<g class="arrow"><path d="M102 14h6v6m0-6-6 6" fill="none" stroke="#875100" stroke-width="1.5"/></g>
 </svg>
