@@ -136,7 +136,7 @@
   ],
   "level_cap": 10,
   "featured": {
-    "portfolio1": {
+    "portfolio": {
       "title": "Portfolio",
       "description": "Interactive project showcase with a 3D robotic arm."
     },
@@ -184,10 +184,10 @@
     }
   },
   "manifests": {
-    "portfolio1": [
+    "icepop": [
       "frontend/package.json"
     ],
-    "icepop": [
+    "portfolio": [
       "frontend/package.json"
     ]
   }

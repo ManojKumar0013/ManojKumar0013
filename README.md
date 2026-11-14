@@ -28,7 +28,7 @@ I’m a B.Tech Computer Science student working toward AI/ML engineering roles. 
   <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="assets/dark/skills-mobile.svg">
   <source media="(max-width: 600px)" srcset="assets/light/skills-mobile.svg">
   <source media="(prefers-color-scheme: dark)" srcset="assets/dark/skills.svg">
-  <img src="assets/light/skills.svg" width="840" alt="Player Select. C: in training; PYTHON: 3 public repositories with evidence; JAVA: 1 public repositories with evidence; REACT: 1 public repositories with evidence; KOTLIN: in training; JAVASCRIPT: 5 public repositories with evidence; JUPYTER: in training; PYTORCH: in training; SCIKIT-LEARN: in training; CUDA / GPU: in training">
+  <img src="assets/light/skills.svg" width="840" alt="Player Select. C: in training; PYTHON: 3 public repositories with evidence; JAVA: 1 public repositories with evidence; REACT: 2 public repositories with evidence; KOTLIN: in training; JAVASCRIPT: 5 public repositories with evidence; JUPYTER: in training; PYTORCH: in training; SCIKIT-LEARN: in training; CUDA / GPU: in training">
 </picture>
 
 <picture>
@@ -49,12 +49,12 @@ I’m a B.Tech Computer Science student working toward AI/ML engineering roles. 
 
 | Project | What it does |
 | --- | --- |
+| [Portfolio](https://github.com/ManojKumar0013/portfolio) | Interactive project showcase with a 3D robotic arm. |
 | [HungryHub](https://github.com/ManojKumar0013/HungryHub-Online-Food-Ordering-System-) | Multi-role food ordering with a PostgreSQL data model. |
 | [ICEPOPS](https://github.com/ManojKumar0013/icepop) | Online ordering, loyalty and live order tracking. |
 | [NexTune](https://github.com/ManojKumar0013/EMOTION_BASED_MUSIC_WEBSITE) | Mood-based music discovery with the Jamendo API. |
 | [Clinic Scheduler](https://github.com/ManojKumar0013/23CSE111_CLINIC_APPOINTEMENT_SYSTEM_C4) | Java team project for appointments and schedules. |
 | [Time Tick Quiz](https://github.com/ManojKumar0013/Time-Tick-Quiz) | Python quiz project. |
-| [portfolio](https://github.com/ManojKumar0013/portfolio) | Public GitHub project |
 
 <a href="https://manojkumar0013.github.io/ManojKumar0013/game/">
 <picture>
