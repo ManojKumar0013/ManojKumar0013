@@ -15,7 +15,7 @@ THEMES = {
     "light": {
         "bg": "#f7f5ef", "screen": "#fbfaf6", "card": "#ffffff", "bar": "#efebe2",
         "line": "#ddd7ca", "line2": "#cfc8b8", "fg": "#18211c", "dim": "#626c66", "faint": "#968e7c",
-        "green": "#0a8a55", "green2": "#9fd8bd", "amber": "#b56a00", "amber2": "#ecd2a6",
+        "green": "#087344", "green2": "#9fd8bd", "amber": "#945600", "amber2": "#ecd2a6",
         "mag": "#c2185b", "sky": "#eef3ee", "glow": 0.0,
     },
 }
@@ -63,15 +63,10 @@ BASE_CSS = """
 .fg{fill:%(fg)s}.dim{fill:%(dim)s}.faint{fill:%(faint)s}.green{fill:%(green)s}.green2{fill:%(green2)s}
 .amber{fill:%(amber)s}.amber2{fill:%(amber2)s}.mag{fill:%(mag)s}.bgc{fill:%(bg)s}.card{fill:%(card)s}.screen{fill:%(screen)s}
 .glow{filter:url(#glow)}
-.fb{transform-box:fill-box;transform-origin:center}
 @keyframes rise{from{opacity:0;transform:translateY(8px)}}
 .rise{animation:rise .7s cubic-bezier(.2,.7,.2,1) backwards}
 @keyframes fade{from{opacity:0}}
 .fade{animation:fade .8s ease-out backwards}
-@keyframes blink{0%%,55%%{opacity:1}56%%,100%%{opacity:.3}}
-.blink{animation:blink 1.4s ease-in-out infinite}
-@keyframes type{from{transform:scaleX(1)}to{transform:scaleX(0)}}
-.type{transform-box:fill-box;transform-origin:right center;transform:scaleX(0);animation:type .55s steps(24,end) backwards}
 @media (prefers-reduced-motion:reduce){*{animation:none!important}}
 """
 

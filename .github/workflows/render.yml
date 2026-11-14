@@ -1,39 +1,60 @@
-name: render profile
+name: Refresh profile
 
 on:
+  pull_request:
+    paths: ["README.md", "assets/**", "gen/**", ".github/workflows/render.yml"]
+  push:
+    branches: [main]
+    paths: ["README.md", "assets/**", "gen/**", ".github/workflows/render.yml"]
   schedule:
     - cron: "17 3 * * *"
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths: ["gen/**", ".github/workflows/render.yml"]
 
 permissions:
-  contents: write
-
-concurrency:
-  group: render
-  cancel-in-progress: false
+  contents: read
 
 jobs:
-  render:
+  check:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Render MANOJ//OS panels
+      - run: python -m gen --check
+
+  refresh:
+    needs: check
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    concurrency:
+      group: profile-refresh
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Render profile
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
           PROFILE_LOGIN: ${{ github.repository_owner }}
         run: python -m gen
-      - name: Commit refreshed panels
+      - name: Publish updated artwork
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add assets README.md
-          git diff --cached --quiet && echo "nothing changed" && exit 0
-          git commit -m "render: refresh panels $(date -u +%Y-%m-%d)"
-          git pull --rebase -X theirs origin main
-          git push
+          git add -- README.md assets
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+          git commit -m "Refresh profile snapshot"
+          git push origin HEAD:refs/heads/main

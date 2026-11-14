@@ -1,150 +1,172 @@
-"""Live profile data: GitHub GraphQL when a token exists, public REST + calendar otherwise."""
+"""Collect and summarize public GitHub activity for the profile."""
 from __future__ import annotations
+
 import datetime as dt
 import json
 import os
 import re
+import time
+import urllib.error
 import urllib.request
-from collections import Counter
+from concurrent.futures import ThreadPoolExecutor
+from html.parser import HTMLParser
+from pathlib import Path
+
 from .kit import LANG_COLORS
 
-CONFIG = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "config.json")))
+CONFIG = json.loads(Path(__file__).with_name("config.json").read_text(encoding="utf-8"))
 LOGIN = os.environ.get("PROFILE_LOGIN") or CONFIG["login"]
-UA = {"User-Agent": "manoj-os-renderer", "Accept": "application/vnd.github+json"}
-
-Q = """
-query($login:String!, $from:DateTime!, $to:DateTime!) {
-  user(login:$login){
-    name login createdAt followers{totalCount}
-    contributionsCollection(from:$from, to:$to){
-      contributionCalendar{ totalContributions weeks{ contributionDays{ date contributionCount } } }
-    }
-    repositories(first:100, ownerAffiliations:OWNER, privacy:PUBLIC, orderBy:{field:PUSHED_AT,direction:DESC}){
-      totalCount
-      nodes{ name url isFork stargazerCount pushedAt diskUsage description primaryLanguage{name color}
-        languages(first:12, orderBy:{field:SIZE,direction:DESC}){ edges{ size node{name color} } } }
+API = "https://api.github.com"
+HEADERS = {"User-Agent": "manoj-os-renderer", "Accept": "application/vnd.github+json"}
+GRAPHQL = """
+query($login: String!, $from: DateTime!, $to: DateTime!) {
+  user(login: $login) {
+    contributionsCollection(from: $from, to: $to) {
+      contributionCalendar { weeks { contributionDays { date contributionCount } } }
     }
   }
-}"""
+}
+"""
 
 
-def _get(url, token=None, raw=False):
-    h = dict(UA)
-    if token: h["Authorization"] = f"bearer {token}"
-    with urllib.request.urlopen(urllib.request.Request(url, headers=h), timeout=40) as r:
-        body = r.read().decode()
-    return body if raw else json.loads(body)
+def request(url, *, token=None, payload=None, raw=False):
+    headers = dict(HEADERS)
+    data = None
+    if token:
+        headers["Authorization"] = f"Bearer {token}"
+    if payload is not None:
+        data = json.dumps(payload).encode("utf-8")
+        headers["Content-Type"] = "application/json"
+    req = urllib.request.Request(url, data=data, headers=headers)
+    for attempt in range(3):
+        try:
+            with urllib.request.urlopen(req, timeout=15) as response:
+                return response.read().decode("utf-8") if raw else json.load(response)
+        except urllib.error.HTTPError as error:
+            if error.code not in (500, 502, 503, 504) or attempt == 2:
+                raise
+        except (urllib.error.URLError, TimeoutError):
+            if attempt == 2:
+                raise
+        time.sleep(2 ** attempt)
 
 
-def _graphql(token, year):
-    body = json.dumps({"query": Q, "variables": {
-        "login": LOGIN, "from": f"{year}-01-01T00:00:00Z", "to": f"{year}-12-31T23:59:59Z"}}).encode()
-    req = urllib.request.Request("https://api.github.com/graphql", data=body,
-                                 headers={**UA, "Authorization": f"bearer {token}", "Content-Type": "application/json"})
-    with urllib.request.urlopen(req, timeout=60) as r:
-        data = json.load(r)
-    if data.get("errors") or not data.get("data", {}).get("user"):
-        raise RuntimeError(f"graphql: {data.get('errors')}")
-    u = data["data"]["user"]
-    days = [(d["date"], d["contributionCount"]) for w in u["contributionsCollection"]["contributionCalendar"]["weeks"]
-            for d in w["contributionDays"]]
-    repos = [{
-        "name": r["name"], "url": r["url"], "fork": r["isFork"], "stars": r["stargazerCount"],
-        "pushed": r["pushedAt"], "kb": r["diskUsage"] or 0, "desc": r["description"] or "",
-        "lang": (r["primaryLanguage"] or {}).get("name"),
-        "langs": {e["node"]["name"]: e["size"] for e in r["languages"]["edges"]},
-        "colors": {e["node"]["name"]: e["node"]["color"] for e in r["languages"]["edges"]},
-    } for r in u["repositories"]["nodes"]]
-    return {"login": u["login"], "name": u["name"], "created": u["createdAt"], "followers": u["followers"]["totalCount"],
-            "public_repos": u["repositories"]["totalCount"], "days": days, "repos": repos}
+class CalendarParser(HTMLParser):
+    """Read the public calendar's date cells and their matching tooltips."""
+
+    def __init__(self):
+        super().__init__()
+        self.dates = {}
+        self.tooltips = {}
+        self.current = None
+
+    def handle_starttag(self, tag, attrs):
+        attrs = dict(attrs)
+        if tag == "td" and attrs.get("data-date") and attrs.get("id"):
+            self.dates[attrs["id"]] = attrs["data-date"]
+        if tag == "tool-tip" and attrs.get("for"):
+            self.current = attrs["for"]
+            self.tooltips[self.current] = ""
+
+    def handle_data(self, data):
+        if self.current:
+            self.tooltips[self.current] += data
+
+    def handle_endtag(self, tag):
+        if tag == "tool-tip":
+            self.current = None
+
+    def days(self):
+        for key, day in self.dates.items():
+            tip = self.tooltips.get(key, "").strip()
+            match = re.match(r"([\d,]+) contributions?\b", tip)
+            if match:
+                yield day, int(match[1].replace(",", ""))
+            elif tip.startswith("No contributions"):
+                yield day, 0
+            else:
+                raise ValueError(f"Unrecognized GitHub calendar tooltip for {day}")
 
 
-def _public(year):
-    u = _get(f"https://api.github.com/users/{LOGIN}")
-    raw = _get(f"https://api.github.com/users/{LOGIN}/repos?per_page=100&sort=pushed&type=owner")
-    repos = []
-    for r in raw:
-        langs = {} if r["fork"] else _get(r["languages_url"])
-        repos.append({"name": r["name"], "url": r["html_url"], "fork": r["fork"], "stars": r["stargazers_count"],
-                      "pushed": r["pushed_at"], "kb": r["size"] or 0, "desc": r["description"] or "",
-                      "lang": r["language"], "langs": langs, "colors": {}})
-    html = _get(f"https://github.com/users/{LOGIN}/contributions?from={year}-01-01&to={year}-12-31", raw=True)
-    tips = {m.group(1): m.group(2) for m in re.finditer(r'<tool-tip[^>]*for="([^"]+)"[^>]*>([^<]*)</tool-tip>', html)}
-    days = []
-    for m in re.finditer(r'<td[^>]*data-date="(\d{4}-\d\d-\d\d)"[^>]*id="([^"]+)"', html):
-        n = re.match(r"\s*(\d+) contribution", tips.get(m.group(2), ""))
-        days.append((m.group(1), int(n.group(1)) if n else 0))
-    if not days:
-        raise RuntimeError("contribution calendar could not be read")
-    days.sort()
-    return {"login": u["login"], "name": u["name"], "created": u["created_at"], "followers": u["followers"],
-            "public_repos": u["public_repos"], "days": days, "repos": repos}
+def get_calendar(today, token):
+    start = today.replace(month=1, day=1)
+    if token:
+        try:
+            data = request(f"{API}/graphql", token=token, payload={"query": GRAPHQL, "variables": {
+                "login": LOGIN, "from": f"{start}T00:00:00Z", "to": f"{today}T23:59:59Z",
+            }})
+            weeks = data["data"]["user"]["contributionsCollection"]["contributionCalendar"]["weeks"]
+            days = [(dt.date.fromisoformat(d["date"]), d["contributionCount"])
+                    for week in weeks for d in week["contributionDays"]]
+            return complete_calendar(days, start, today)
+        except (OSError, ValueError, KeyError, TypeError) as error:
+            print(f"GraphQL calendar unavailable ({type(error).__name__}). Reading the public calendar.")
+    parser = CalendarParser()
+    parser.feed(request(f"https://github.com/users/{LOGIN}/contributions?from={start}&to={today}", raw=True))
+    days = [(dt.date.fromisoformat(day), count) for day, count in parser.days()]
+    return complete_calendar(days, start, today)
+
+
+def complete_calendar(days, start, today):
+    counts = {day: count for day, count in days if start <= day <= today}
+    first = min(counts, default=today)
+    # A newly created account (or GitHub's trailing calendar window) can start after January 1.
+    if not counts or len(counts) != (today - first).days + 1:
+        raise ValueError("GitHub returned an empty or incomplete contribution calendar")
+    return [(day.isoformat(), count) for day, count in sorted(counts.items())]
+
+
+def get_repositories(token):
+    public = []
+    for page in range(1, 101):
+        rows = request(f"{API}/users/{LOGIN}/repos?type=owner&sort=full_name&per_page=100&page={page}", token=token)
+        public.extend(r for r in rows if not r["private"] and r["owner"]["login"].casefold() == LOGIN.casefold())
+        if len(rows) < 100:
+            return {r["name"].casefold(): r for r in public}
+    raise RuntimeError("GitHub repository pagination exceeded 100 pages")
+
+
+def streaks(days):
+    best = run = previous = 0
+    for _, count in days:
+        previous, run = run, run + 1 if count else 0
+        best = max(best, run)
+    return run or previous, best
 
 
 def fetch():
-    year = dt.datetime.now(dt.timezone.utc).year
+    today = dt.datetime.now(dt.timezone.utc).date()
     token = os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN")
-    raw = _graphql(token, year) if token else _public(year)
-    return shape(raw, year)
+    account = request(f"{API}/users/{LOGIN}", token=token)
+    public = get_repositories(token)
+    own = {name: repo for name, repo in public.items()
+           if not repo["fork"] and name != LOGIN.casefold()}
+    with ThreadPoolExecutor(max_workers=4) as pool:
+        calendar_task = pool.submit(get_calendar, today, token)
+        language_tasks = [pool.submit(request, repo["languages_url"], token=token) for repo in own.values()]
+        languages = [task.result() for task in language_tasks]
+        calendar = calendar_task.result()
+    streak, best = streaks(calendar)
+    projects = []
+    for project in CONFIG["projects"]:
+        repo = own.get(project["repo"].casefold())
+        if repo is None:
+            print(f"Skipping unavailable public project: {project['repo']}")
+            continue
+        projects.append({**project, "url": repo["html_url"], "stars": repo["stargazers_count"],
+                         "color": LANG_COLORS.get(repo["language"], "#8a9892")})
+    if not projects:
+        raise ValueError("No configured featured projects were found")
 
+    skills = []
+    for skill in CONFIG["skills"]:
+        count = sum(any(repo.get(lang, 0) for lang in skill["languages"]) for repo in languages)
+        skills.append({**skill, "repos": count})
 
-def _streaks(days, today):
-    best = run = 0
-    for _, c in days:
-        run = run + 1 if c > 0 else 0
-        best = max(best, run)
-    cur = 0
-    for d, c in reversed(days):
-        if d > today: continue
-        if c > 0: cur += 1
-        elif cur == 0 and d == today: continue
-        else: break
-    return cur, best
-
-
-def _skills(own):
-    share, total = Counter(), 0.0
-    for r in own:
-        tot = sum(r["langs"].values())
-        if not tot: continue
-        total += 1
-        for k, v in r["langs"].items():
-            share[k] += v / tot
-    out = []
-    for sk in CONFIG["skills"]:
-        s = sum(share.get(lang, 0) for lang in sk["languages"]) / (total or 1)
-        hits = [r["name"] for r in own if any(r["langs"].get(lang) for lang in sk["languages"])]
-        level = max(1, min(10, round((s ** 0.5) * 14)))
-        out.append({**sk, "share": s, "level": level, "repos": len(hits),
-                    "training": s < CONFIG.get("training_below", 0.03)})
-    return out
-
-
-def shape(raw, year):
-    now = dt.datetime.now(dt.timezone.utc)
-    today = now.date().isoformat()
-    days = [(d, c) for d, c in raw["days"] if d[:4] == str(year)]
-    cur, best = _streaks([x for x in days if x[0] <= today], today)
-    profile_repo = raw["login"].lower()
-    own = [r for r in raw["repos"] if not r["fork"]]
-    colors = dict(LANG_COLORS)
-    for r in own: colors.update({k: v for k, v in r["colors"].items() if v})
-    skip = {profile_repo, *[x.lower() for x in CONFIG.get("exclude_projects", [])]}
-    cands = [r for r in own if r["name"].lower() not in skip]
-    for r in cands:
-        r["days"] = (now - dt.datetime.fromisoformat(r["pushed"].replace("Z", "+00:00"))).days
-    cands.sort(key=lambda r: (-r["stars"], r["days"]))
-    projects = [{"name": r["name"], "url": r["url"], "stars": r["stars"], "days": r["days"], "kb": r["kb"],
-                 "desc": r["desc"].strip(), "lang": r["lang"] or (max(r["langs"], key=r["langs"].get) if r["langs"] else None),
-                 "n_langs": len(r["langs"])} for r in cands[: CONFIG.get("max_projects", 6)]]
-    for p in projects: p["color"] = colors.get(p["lang"] or "", "#8a9892")
-    created = dt.datetime.fromisoformat(raw["created"].replace("Z", "+00:00"))
     return {
-        "login": raw["login"], "name": CONFIG.get("display_name") or raw["name"] or raw["login"], "year": year,
-        "today": today, "uptime_days": (now - created).days,
-        "followers": raw["followers"], "repos": raw["public_repos"], "own_repos": len(own),
-        "stars": sum(r["stars"] for r in own),
-        "contribs": sum(c for _, c in days), "streak": cur, "best_streak": best,
-        "calendar": days, "skills": _skills(own), "projects": projects, "colors": colors,
-        "generated": now.strftime("%Y-%m-%d %H:%M UTC"),
+        "login": account["login"], "name": CONFIG["display_name"], "year": today.year,
+        "today": today.isoformat(), "followers": account["followers"], "repos": len(public),
+        "own_repos": len(own), "stars": sum(r["stargazers_count"] for r in own.values()),
+        "contribs": sum(count for _, count in calendar), "streak": streak, "best_streak": best,
+        "calendar": calendar, "skills": skills, "projects": projects,
     }

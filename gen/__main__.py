@@ -1,57 +1,108 @@
-"""python -m gen  ->  renders every panel (dark + light) into assets/ and refreshes README links."""
-import json
-import os
+"""Render and verify the GitHub profile README and its local artwork."""
+from __future__ import annotations
+
+import argparse
 import re
 import sys
 import tempfile
+from pathlib import Path
+from xml.etree import ElementTree
+
 from .kit import THEMES
-from .stats import fetch, CONFIG
-from .panels import boot, skills, scores, level, stages, contact
+from .panels import boot, level, scores, skills, stages
+from .stats import CONFIG, fetch
 
-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-OUT = os.path.join(ROOT, "assets")
-PANELS = {"boot": boot, "skills": skills, "scores": scores, "level": level, "stages": stages, "contact": contact}
+ROOT = Path(__file__).resolve().parents[1]
+PANELS = {"boot": boot, "stages": stages, "skills": skills, "level": level, "scores": scores}
 
 
-def readme_links(st):
-    path = os.path.join(ROOT, "README.md")
-    if not os.path.exists(path): return
-    links = " ·\n  ".join(f'<a href="{p["url"]}"><code>{i:02d} {p["name"]}</code></a>' for i, p in enumerate(st["projects"], 1))
-    block = f'<!-- STAGES:START -->\n<p align="center">\n  {links}\n</p>\n<!-- STAGES:END -->'
-    src = open(path, encoding="utf-8").read()
-    new = re.sub(r"<!-- STAGES:START -->.*?<!-- STAGES:END -->", lambda _: block, src, flags=re.S)
-    if new != src:
-        open(path, "w", encoding="utf-8").write(new)
+def update_block(readme, name, body):
+    start, end = f"<!-- {name}:START -->", f"<!-- {name}:END -->"
+    if readme.count(start) != 1 or readme.count(end) != 1 or readme.index(start) > readme.index(end):
+        raise ValueError(f"README requires one correctly ordered {name} block")
+    before, rest = readme.split(start)
+    _, after = rest.split(end)
+    return f"{before}{start}\n\n{body}\n\n{end}{after}"
+
+
+def project_table(projects):
+    lines = ["| Project | What it does | Stack | Links |", "| --- | --- | --- | --- |"]
+    for project in projects:
+        links = f'[Source]({project["url"]})'
+        if demo := project.get("demo"):
+            links += f' · [Live demo]({demo})'
+        lines.append(f'| **{project["title"]}** | {project["summary"]} | {project["stack"]} | {links} |')
+    return "\n".join(lines)
+
+
+def render_profile(stats, readme):
+    rendered = {
+        Path(f"assets/{theme}/{name}.svg"): panel.render(stats, palette, CONFIG)
+        for theme, palette in THEMES.items() for name, panel in PANELS.items()
+    }
+    readme = update_block(readme, "STAGES", project_table(stats["projects"]))
+    readme = update_block(readme, "ACTIVITY", (
+        f"**{stats['contribs']:,} contributions in {stats['year']}** · "
+        f"**{stats['streak']:,}-day current streak** · "
+        f"**{stats['best_streak']:,}-day best streak this year**\n\n"
+        f"Snapshot from GitHub on {stats['today']} (UTC)."
+    ))
+    return {**rendered, Path("README.md"): readme}
+
+
+def validate(files):
+    readme = files[Path("README.md")]
+    for name in ("STAGES", "ACTIVITY"):
+        pattern = rf"<!-- {name}:START -->\s*(\S.*?)<!-- {name}:END -->"
+        if not re.search(pattern, readme, re.S):
+            raise ValueError(f"Empty {name} block in README")
+        update_block(readme, name, "")
+    references = {Path(path) for path in re.findall(r'(?:srcset|src)="(assets/[^"]+)"', readme)}
+    artwork = files.keys() - {Path("README.md")}
+    if artwork != references:
+        raise ValueError(f"README artwork differs from generated panels: {artwork ^ references}")
+    for path in artwork:
+        svg = ElementTree.fromstring(files[path])
+        if svg.tag != "{http://www.w3.org/2000/svg}svg" or not svg.get("viewBox"):
+            raise ValueError(f"Invalid SVG artwork: {path}")
+
+
+def publish(files):
+    # Stage the complete snapshot before replacing any published file.
+    with tempfile.TemporaryDirectory(dir=ROOT) as tmp:
+        staging = Path(tmp)
+        for path, content in files.items():
+            target = staging / path
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_text(content, encoding="utf-8")
+        for path in files:
+            target = ROOT / path
+            target.parent.mkdir(parents=True, exist_ok=True)
+            (staging / path).replace(target)
 
 
 def main():
-    cache = os.environ.get("STATS_CACHE")
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--check", action="store_true", help="Validate the existing snapshot offline")
+    args = parser.parse_args()
     try:
-        if cache and os.path.exists(cache):
-            st = json.load(open(cache))
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        if args.check:
+            files = {path: (ROOT / path).read_text(encoding="utf-8") for path in (
+                Path(f"assets/{theme}/{name}.svg") for theme in THEMES for name in PANELS
+            )}
+            files[Path("README.md")] = readme
         else:
-            st = fetch()
-            if cache: json.dump(st, open(cache, "w"))
-        if not st["calendar"]:
-            raise RuntimeError("empty contribution calendar")
-    except Exception as e:
-        print(f"fetch failed ({e}); keeping the last good panels untouched", file=sys.stderr)
-        sys.exit(1)
-    print(f"stats: {st['contribs']} contributions, {st['repos']} repos, streak {st['streak']}/{st['best_streak']}")
-    rendered = {}
-    for theme, th in THEMES.items():
-        for name, mod in PANELS.items():
-            rendered[f"{theme}/{name}.svg"] = mod.render(st, th, CONFIG)
-    for rel, svg in rendered.items():
-        dst = os.path.join(OUT, rel)
-        os.makedirs(os.path.dirname(dst), exist_ok=True)
-        fd, tmp = tempfile.mkstemp(dir=os.path.dirname(dst), suffix=".tmp")
-        with os.fdopen(fd, "w", encoding="utf-8") as f:
-            f.write(svg)
-        os.replace(tmp, dst)
-        print(f"  {rel:<20} {len(svg) / 1024:6.1f} KB")
-    readme_links(st)
+            files = render_profile(fetch(), readme)
+        validate(files)
+        if not args.check:
+            publish(files)
+        print(f"Validated README and {len(files) - 1} SVG panels.")
+    except (OSError, RuntimeError, ValueError, KeyError, TypeError, ElementTree.ParseError) as error:
+        print(f"Profile {'validation' if args.check else 'refresh'} failed: {error}", file=sys.stderr)
+        return 1
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

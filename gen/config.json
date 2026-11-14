@@ -1,22 +1,88 @@
 {
   "login": "ManojKumar0013",
-  "display_name": "Manoj Kumar",
+  "display_name": "Manoj Kumar Bondada",
   "initials": "MKB",
   "logo": "MANOJ//OS",
-  "tagline": "B.Tech CSE · Machine Learning & Systems",
-  "links": [
-    {"label": "LINKEDIN", "text": "/in/manoj-kumar-bondada", "url": "https://www.linkedin.com/in/manoj-kumar-bondada-a92410384"},
-    {"label": "EMAIL", "text": "manojkumarbondada123@gmail.com", "url": "mailto:manojkumarbondada123@gmail.com"}
-  ],
+  "tagline": "B.Tech CSE · Full-Stack Development · AI/ML",
   "skills": [
-    {"key": "c", "name": "C", "role": "IRON KNIGHT", "languages": ["C"]},
-    {"key": "python", "name": "PYTHON", "role": "SERPENT MAGE", "languages": ["Python", "Jupyter Notebook"]},
-    {"key": "java", "name": "JAVA", "role": "BREW PALADIN", "languages": ["Java"]},
-    {"key": "react", "name": "REACT", "role": "ORBIT RANGER", "languages": ["TypeScript"]},
-    {"key": "kotlin", "name": "KOTLIN", "role": "PRISM ROGUE", "languages": ["Kotlin"]},
-    {"key": "javascript", "name": "JAVASCRIPT", "role": "SPARK BARD", "languages": ["JavaScript"]}
+    {
+      "key": "c",
+      "name": "C",
+      "languages": [
+        "C"
+      ]
+    },
+    {
+      "key": "python",
+      "name": "PYTHON",
+      "languages": [
+        "Python",
+        "Jupyter Notebook"
+      ]
+    },
+    {
+      "key": "java",
+      "name": "JAVA",
+      "languages": [
+        "Java"
+      ]
+    },
+    {
+      "key": "typescript",
+      "name": "TYPESCRIPT",
+      "languages": [
+        "TypeScript"
+      ]
+    },
+    {
+      "key": "kotlin",
+      "name": "KOTLIN",
+      "languages": [
+        "Kotlin"
+      ]
+    },
+    {
+      "key": "javascript",
+      "name": "JAVASCRIPT",
+      "languages": [
+        "JavaScript"
+      ]
+    }
   ],
-  "training_below": 0.03,
-  "max_projects": 6,
-  "exclude_projects": []
+  "projects": [
+    {
+      "repo": "portfolio1",
+      "title": "Portfolio",
+      "summary": "3D robotic arm and interactive project showcase.",
+      "stack": "React · Three.js",
+      "demo": "https://frontend-steel-nine-30.vercel.app/"
+    },
+    {
+      "repo": "icepop",
+      "title": "ICEPOPS",
+      "summary": "Online ordering, loyalty rewards, and live order tracking.",
+      "stack": "React · FastAPI",
+      "demo": "https://icepop-gray.vercel.app/"
+    },
+    {
+      "repo": "HungryHub-Online-Food-Ordering-System-",
+      "title": "HungryHub",
+      "summary": "Multi-role food ordering app with a relational database.",
+      "stack": "React · Express · PostgreSQL",
+      "demo": "https://hungry-hub-online-food-ordering-sys.vercel.app/"
+    },
+    {
+      "repo": "EMOTION_BASED_MUSIC_WEBSITE",
+      "title": "NexTune",
+      "summary": "Mood-based music discovery and playlists.",
+      "stack": "Vue · Jamendo API",
+      "demo": "https://manojkumar0013.github.io/EMOTION_BASED_MUSIC_WEBSITE/"
+    },
+    {
+      "repo": "23CSE111_CLINIC_APPOINTEMENT_SYSTEM_C4",
+      "title": "Clinic Appointment Scheduler",
+      "summary": "Team project for doctor schedules and patient bookings.",
+      "stack": "Java"
+    }
+  ]
 }

@@ -17,7 +17,8 @@ def weeks(st):
     for d, c in st["calendar"]:
         i = (dt.date.fromisoformat(d) - start).days // 7
         if 0 <= i < n and c:
-            tot[i] += c; active[i] += 1
+            tot[i] += c
+            active[i] += 1
     cw = (dt.date.fromisoformat(st["today"]) - start).days // 7
     return start, n, tot, active, min(max(cw, 0), n - 1)
 
@@ -30,7 +31,7 @@ def render(st, th, cfg):
     top = [G - lv[c] * U for c in range(n)]
     cx = [x0 + c * CWID + CWID / 2 for c in range(n)]
     body = [header(ptext(f"WORLD {st['year']}", 28, 62, 3, "fg"),
-                   f"{st['contribs']} coins · {sum(1 for _, c in st['calendar'] if c)} active days · best week {max(tot)}")]
+                   f"{st['contribs']} contributions · {sum(active)} active days · best week {max(tot)}")]
     body.append(f'<rect x="24" y="100" width="{W - 48}" height="{G - 100 + 58}" rx="10" fill="{th["sky"]}" stroke="{th["line"]}"/>')
     for hx, hr in ((120, 70), (300, 44), (520, 86), (700, 52)):
         body.append(f'<path d="M{hx - hr} {G}a{hr} {hr * .7} 0 0 1 {hr * 2} 0z" fill="{th["line"]}" fill-opacity=".55"/>')
@@ -55,24 +56,27 @@ def render(st, th, cfg):
         body.append(t((gx1 + x0 + n * CWID) / 2, G - 52, "unexplored", "faint", 10, "middle"))
 
     span = max(cw, 1)
-    secs = max(8.0, span * 0.22)
+    secs = 3.5
     run_end = 86.0
-    pct = lambda c: c / span * run_end
-    css = [f"@keyframes cloud{{to{{transform:translateX(40px)}}}}.cloud{{animation:cloud 14s ease-in-out infinite alternate}}",
-           "@keyframes bob{to{transform:translateY(-3px)}}.bob{animation:bob .9s ease-in-out infinite alternate}"]
+
+    def pct(column):
+        return column / span * run_end
+
+    css = [f"@keyframes cloud{{to{{transform:translateX(40px)}}}}.cloud{{animation:cloud 3s ease-in-out 1 alternate}}",
+           "@keyframes bob{to{transform:translateY(-3px)}}.bob{animation:bob .9s ease-in-out 1 alternate}"]
     coins = []
     for c in range(cw + 1):
         if not tot[c]: continue
-        p = pct(c)
+        p = max(pct(c), .02)
         css.append(f"@keyframes k{c}{{0%,{max(p - .01, 0):.2f}%{{opacity:1}}{p:.2f}%,99.8%{{opacity:0}}100%{{opacity:1}}}}"
-                   f".k{c}{{animation:k{c} {secs:.2f}s linear infinite 1.2s}}")
+                   f".k{c}{{animation:k{c} {secs:.2f}s linear 1 .4s}}")
         coins.append(f'<g class="k{c}"><g class="bob" style="animation-delay:{-(c % 5) * .18:.2f}s">'
                      f'{sprite_paths(COIN, cx[c] - 6, top[c] - 22, 1.5, {"c": ".amber", "d": ".amber2"})}</g></g>')
     body.append(f'<g class="fade" style="animation-delay:.6s">{"".join(coins)}</g>')
 
     fx, fy = cx[cw] + 8, top[cw]
     body.append(f'<line x1="{fx}" y1="{fy}" x2="{fx}" y2="{fy - 62}" stroke="{th["dim"]}" stroke-width="2"/>'
-                f'<path d="M{fx + 1} {fy - 62}l18 7l-18 7z" class="mag"/>' + t(fx, fy - 68, "TODAY", "mag", 9.5, "middle", 600))
+                f'<path d="M{fx + 1} {fy - 62}l18 7l-18 7z" class="mag"/>' + t(fx, fy - 68, "THIS WEEK", "mag", 9.5, "middle", 600))
 
     rw, rh = 18, 22
     frames = []
@@ -80,10 +84,10 @@ def render(st, th, cfg):
         frames.append(f"{pct(c):.2f}%{{transform:translate({cx[c] - cx[0]:.1f}px,{top[c] - top[0]:.1f}px)}}")
         if c < cw and top[c + 1] != top[c]:
             frames.append(f"{(pct(c) + pct(c + 1)) / 2:.2f}%{{transform:translate({(cx[c] + cx[c + 1]) / 2 - cx[0]:.1f}px,{min(top[c], top[c + 1]) - 16 - top[0]:.1f}px)}}")
-    frames.append(f"100%{{transform:translate({cx[cw] - cx[0] - 12:.1f}px,{top[cw] - top[0]:.1f}px)}}")
-    css.append("@keyframes run{" + "".join(frames) + f"}}.run{{animation:run {secs:.2f}s linear infinite 1.2s}}")
-    css.append("@keyframes leg{0%,49%{opacity:1}50%,100%{opacity:0}}.legA{animation:leg .32s steps(1,end) infinite}"
-               ".legB{opacity:0;animation:leg .32s steps(1,end) infinite -.16s}")
+    frames.append(f"100%{{transform:translate({cx[cw] - cx[0]:.1f}px,{top[cw] - top[0]:.1f}px)}}")
+    css.append("@keyframes run{" + "".join(frames) + f"}}.run{{animation:run {secs:.2f}s linear 1 .4s forwards}}")
+    css.append("@keyframes leg{0%,49%{opacity:1}50%,100%{opacity:0}}.legA{animation:leg .32s steps(1,end) 12}"
+               ".legB{opacity:0;animation:leg .32s steps(1,end) 12 -.16s}")
     pal = {"a": ".mag", "f": "#f2c9a0", "k": "#16201b", "g": ".amber", "b": ".fg"}
     rx, ry = cx[0] - rw / 2, top[0] - rh
     body.append(f'<g class="run"><g class="legA">{sprite_paths(RUNNER[0], rx, ry, 2, pal)}</g>'
