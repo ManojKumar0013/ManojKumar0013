@@ -7,11 +7,11 @@ import tempfile
 from .kit import THEMES
 from .game import export_level
 from .stats import fetch, CONFIG
-from .panels import boot, skills, scores, level, stages, contact
+from .panels import boot, skills, scores, level, stages, contact, training, achievements
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "assets")
-PANELS = {"boot": boot, "skills": skills, "scores": scores, "level": level, "stages": stages, "contact": contact}
+PANELS = {"boot": boot, "skills": skills, "scores": scores, "level": level, "stages": stages, "contact": contact, "training": training, "achievements": achievements}
 
 
 def readme_links(st):

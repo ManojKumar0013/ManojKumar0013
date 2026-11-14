@@ -19,6 +19,16 @@
 </picture>
 
 <picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/dark/training.svg">
+  <img src="assets/light/training.svg" width="100%" alt="Now Training — learning goals and latest public commit">
+</picture>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/dark/achievements.svg">
+  <img src="assets/light/achievements.svg" width="100%" alt="Achievements — public pull requests, streak, languages, and projects">
+</picture>
+
+<picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/dark/scores.svg">
   <img src="assets/light/scores.svg" width="100%" alt="High Scores — contributions, streaks, repos, stars and followers, live from GitHub">
 </picture>
@@ -38,11 +48,11 @@
 <!-- STAGES:START -->
 <p align="center">
   <a href="https://github.com/ManojKumar0013/portfolio1"><code>01 portfolio1</code></a> ·
-  <a href="https://github.com/ManojKumar0013/Time-Tick-Quiz"><code>02 Time-Tick-Quiz</code></a> ·
+  <a href="https://github.com/ManojKumar0013/HungryHub-Online-Food-Ordering-System-"><code>02 HungryHub-Online-Food-Ordering-System-</code></a> ·
   <a href="https://github.com/ManojKumar0013/icepop"><code>03 icepop</code></a> ·
-  <a href="https://github.com/ManojKumar0013/HungryHub-Online-Food-Ordering-System-"><code>04 HungryHub-Online-Food-Ordering-System-</code></a> ·
-  <a href="https://github.com/ManojKumar0013/EMOTION_BASED_MUSIC_WEBSITE"><code>05 EMOTION_BASED_MUSIC_WEBSITE</code></a> ·
-  <a href="https://github.com/ManojKumar0013/23CSE111_CLINIC_APPOINTEMENT_SYSTEM_C4"><code>06 23CSE111_CLINIC_APPOINTEMENT_SYSTEM_C4</code></a>
+  <a href="https://github.com/ManojKumar0013/EMOTION_BASED_MUSIC_WEBSITE"><code>04 EMOTION_BASED_MUSIC_WEBSITE</code></a> ·
+  <a href="https://github.com/ManojKumar0013/23CSE111_CLINIC_APPOINTEMENT_SYSTEM_C4"><code>05 23CSE111_CLINIC_APPOINTEMENT_SYSTEM_C4</code></a> ·
+  <a href="https://github.com/ManojKumar0013/Time-Tick-Quiz"><code>06 Time-Tick-Quiz</code></a>
 </p>
 <!-- STAGES:END -->
 

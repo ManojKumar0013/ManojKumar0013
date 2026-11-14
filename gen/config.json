@@ -1,9 +1,9 @@
 {
   "login": "ManojKumar0013",
-  "display_name": "Manoj Kumar",
+  "display_name": "Manoj Kumar Bondada",
   "initials": "MKB",
   "logo": "MANOJ//OS",
-  "tagline": "B.Tech CSE · Machine Learning & Systems",
+  "tagline": "B.Tech CSE · AI/ML & Software Engineering",
   "links": [
     {
       "label": "LINKEDIN",
@@ -14,6 +14,11 @@
       "label": "EMAIL",
       "text": "manojkumarbondada123@gmail.com",
       "url": "mailto:manojkumarbondada123@gmail.com"
+    },
+    {
+      "label": "PORTFOLIO",
+      "text": "Live portfolio",
+      "url": "https://frontend-steel-nine-30.vercel.app/"
     }
   ],
   "skills": [
@@ -30,8 +35,7 @@
       "name": "PYTHON",
       "role": "SERPENT MAGE",
       "languages": [
-        "Python",
-        "Jupyter Notebook"
+        "Python"
       ]
     },
     {
@@ -46,8 +50,11 @@
       "key": "react",
       "name": "REACT",
       "role": "ORBIT RANGER",
-      "languages": [
-        "TypeScript"
+      "languages": [],
+      "topics": [
+        "react",
+        "reactjs",
+        "react-js"
       ]
     },
     {
@@ -65,13 +72,90 @@
       "languages": [
         "JavaScript"
       ]
+    },
+    {
+      "key": "jupyter",
+      "name": "JUPYTER",
+      "role": "Notebook experiments",
+      "languages": [
+        "Jupyter Notebook"
+      ],
+      "topics": [
+        "jupyter",
+        "jupyter-notebook"
+      ]
+    },
+    {
+      "key": "pytorch",
+      "name": "PYTORCH",
+      "role": "Deep learning",
+      "languages": [],
+      "topics": [
+        "pytorch",
+        "torch"
+      ]
+    },
+    {
+      "key": "sklearn",
+      "name": "SCIKIT-LEARN",
+      "role": "Model evaluation",
+      "languages": [],
+      "topics": [
+        "scikit-learn",
+        "sklearn"
+      ]
+    },
+    {
+      "key": "cuda",
+      "name": "CUDA / GPU",
+      "role": "Local GPU work",
+      "languages": [
+        "Cuda"
+      ],
+      "topics": [
+        "cuda",
+        "gpu-computing",
+        "local-gpu"
+      ]
     }
   ],
-  "training_below": 0.03,
   "max_projects": 6,
   "exclude_projects": [],
   "game": {
     "url": "https://manojkumar0013.github.io/ManojKumar0013/game/",
     "leaderboard": ""
+  },
+  "intro": "I’m a B.Tech Computer Science student working toward AI/ML engineering roles. I build full-stack systems and am learning to design reproducible ML experiments, compare baselines, and explain what the metrics mean.",
+  "goals": [
+    "Compare a scikit-learn baseline with a second model",
+    "Train a small PyTorch model and inspect its errors",
+    "Document a reproducible local GPU setup"
+  ],
+  "level_cap": 10,
+  "featured": {
+    "portfolio1": {
+      "title": "Portfolio",
+      "description": "Interactive project showcase with a 3D robotic arm."
+    },
+    "HungryHub-Online-Food-Ordering-System-": {
+      "title": "HungryHub",
+      "description": "Multi-role food ordering with a PostgreSQL data model."
+    },
+    "icepop": {
+      "title": "ICEPOPS",
+      "description": "Online ordering, loyalty and live order tracking."
+    },
+    "EMOTION_BASED_MUSIC_WEBSITE": {
+      "title": "NexTune",
+      "description": "Mood-based music discovery with the Jamendo API."
+    },
+    "23CSE111_CLINIC_APPOINTEMENT_SYSTEM_C4": {
+      "title": "Clinic Scheduler",
+      "description": "Java team project for appointments and schedules."
+    },
+    "Time-Tick-Quiz": {
+      "title": "Time Tick Quiz",
+      "description": "Python quiz project."
+    }
   }
 }

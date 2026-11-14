@@ -32,7 +32,7 @@ def cart(i, p, th):
          f'<rect x="{lx}" y="{ly}" width="{lw}" height="{lh}" rx="6" fill="{p["color"]}" fill-opacity=".1" stroke="{p["color"]}" stroke-opacity=".45"/>',
          f'<rect x="{lx}" y="{ly}" width="{lw}" height="6" rx="3" fill="{p["color"]}"/>',
          ]
-    title = wrap(pretty(p["name"]), 26, 2)
+    title = wrap(pretty(p["title"]), 26, 2)
     for j, ln in enumerate(title):
         o.append(t(lx + 12, ly + 30 + j * 17, ln, "fg", 13.5, weight=700))
     for j, ln in enumerate(lines):
@@ -61,7 +61,7 @@ def render(st, th, cfg):
     ps = st["projects"]
     rows = max(1, (len(ps) + 2) // 3)
     h = Y0 + rows * CH + (rows - 1) * GAP + 26
-    body = [header(ptext("UNLOCKED STAGES", 28, 62, 3, "fg"), f"{len(ps)} of {st['own_repos']} repos · stars first, then latest")]
+    body = [header(ptext("UNLOCKED STAGES", 28, 62, 3, "fg"), f"{len(ps)} of {st['own_repos']} repos · featured builds")]
     body += [cart(i, p, th) for i, p in enumerate(ps)]
     if not ps:
         body.append(t(W / 2, Y0 + 90, "no public stages yet — first one unlocks soon", "dim", 13, "middle"))
