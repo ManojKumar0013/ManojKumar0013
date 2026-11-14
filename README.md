@@ -4,10 +4,14 @@
   by .github/workflows/render.yml from live GitHub data. No outside services.
 -->
 
+<a href="https://manojkumar0013.github.io/ManojKumar0013/game/">
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/dark/boot.svg">
   <img src="assets/light/boot.svg" width="100%" alt="MANOJ//OS boot screen — B.Tech CSE · Machine Learning &amp; Systems. PRESS START">
 </picture>
+</a>
+
+**[▶ PLAY THE GAME](https://manojkumar0013.github.io/ManojKumar0013/game/)**
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/dark/skills.svg">
@@ -19,10 +23,12 @@
   <img src="assets/light/scores.svg" width="100%" alt="High Scores — contributions, streaks, repos, stars and followers, live from GitHub">
 </picture>
 
+<a href="https://manojkumar0013.github.io/ManojKumar0013/game/">
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/dark/level.svg">
   <img src="assets/light/level.svg" width="100%" alt="World map — this year's contributions drawn as a pixel platformer level">
 </picture>
+</a>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/dark/stages.svg">

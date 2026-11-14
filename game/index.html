@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0c1013">
+  <title>Run Through My Year · Arcade Edition</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<main>
+  <header>
+    <div><a id="profile" href="../">GitHub profile</a><h1 id="logo">Arcade Edition</h1></div>
+    <div class="settings"><button id="sound" type="button" aria-pressed="false">Sound off</button>
+      <button id="theme" type="button">Theme: system</button></div>
+  </header>
+  <h2>Run Through My Year</h2>
+  <div class="hud"><span id="world">Loading level…</span><span id="score">Score 0</span><span id="lives">Lives 3</span></div>
+  <div class="screen">
+    <canvas id="game" width="320" height="180" aria-label="Pixel platform game based on the GitHub contribution calendar"></canvas>
+    <div id="overlay" class="overlay">
+      <h3 id="headline">Loading level…</h3>
+      <p id="summary">Reading the contribution calendar.</p>
+      <button id="start" type="button" disabled>Press start</button>
+    </div>
+  </div>
+  <p id="notice" role="status" class="notice"></p>
+  <div class="controls" aria-label="Game controls">
+    <button data-mask="1" type="button" aria-label="Move left">◀</button>
+    <button data-mask="2" type="button" aria-label="Move right">▶</button>
+    <button data-mask="4" type="button" aria-label="Jump">Jump</button>
+    <button id="pause" type="button">Pause</button>
+  </div>
+  <p class="help">Move with ← / → or A / D. Hold Space, ↑ or W to jump higher. P pauses. M toggles sound.</p>
+  <section class="board">
+    <h2>High scores <small id="boardLabel">on this device</small></h2>
+    <p id="boardStatus" role="status"></p>
+    <ol id="scores"></ol>
+    <form id="save" hidden>
+      <label for="initials">Your initials</label>
+      <input id="initials" autocomplete="off" maxlength="3" minlength="3" pattern="[A-Za-z]{3}" placeholder="AAA" required>
+      <button type="submit">Save score</button>
+    </form>
+  </section>
+  <noscript>This game needs JavaScript. The GitHub profile remains available without it.</noscript>
+</main>
+<script type="module" src="./app.mjs"></script>
+</body>
+</html>

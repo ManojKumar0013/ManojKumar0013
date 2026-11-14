@@ -5,6 +5,7 @@ import re
 import sys
 import tempfile
 from .kit import THEMES
+from .game import export_level
 from .stats import fetch, CONFIG
 from .panels import boot, skills, scores, level, stages, contact
 
@@ -51,6 +52,8 @@ def main():
         os.replace(tmp, dst)
         print(f"  {rel:<20} {len(svg) / 1024:6.1f} KB")
     readme_links(st)
+    with open(os.path.join(ROOT, "game", "level.json"), "w", encoding="utf-8") as stream:
+        stream.write(export_level(st, CONFIG))
 
 
 if __name__ == "__main__":
