@@ -1,27 +1,27 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="840" height="266" viewBox="0 0 840 266" role="img" aria-label="Achievements. 4 active days in a row. Public PR found. 9 public project repositories. 8 public project languages">
 <title>Achievements. 4 active days in a row. Public PR found. 9 public project repositories. 8 public project languages</title>
 <defs><filter id="glow" x="-20%" y="-40%" width="140%" height="180%"><feGaussianBlur stdDeviation="2.4" result="b"/><feComponentTransfer in="b" result="b2"><feFuncA type="linear" slope="0"/></feComponentTransfer><feMerge><feMergeNode in="b2"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-<radialGradient id="halo" cx="50%" cy="0%" r="90%"><stop offset="0" stop-color="#0a8a55" stop-opacity="0.000"/><stop offset="1" stop-color="#0a8a55" stop-opacity="0"/></radialGradient>
+<radialGradient id="halo" cx="50%" cy="0%" r="90%"><stop offset="0" stop-color="#087344" stop-opacity="0.000"/><stop offset="1" stop-color="#087344" stop-opacity="0"/></radialGradient>
 </defs>
 <style>
 .m{font-family:'JetBrains Mono','SF Mono','Cascadia Code','Fira Code',Menlo,Consolas,'DejaVu Sans Mono','Liberation Mono',monospace}
-.fg{fill:#18211c}.dim{fill:#626c66}.faint{fill:#968e7c}.green{fill:#0a8a55}.green2{fill:#9fd8bd}
-.amber{fill:#b56a00}.amber2{fill:#ecd2a6}.mag{fill:#c2185b}.bgc{fill:#f7f5ef}.card{fill:#ffffff}.screen{fill:#fbfaf6}
+.fg{fill:#18211c}.dim{fill:#626c66}.faint{fill:#6a6254}.green{fill:#087344}.green2{fill:#9fd8bd}
+.amber{fill:#875100}.amber2{fill:#ecd2a6}.mag{fill:#c2185b}.bgc{fill:#f7f5ef}.card{fill:#ffffff}.screen{fill:#fbfaf6}
 .glow{filter:url(#glow)}
 .fb{transform-box:fill-box;transform-origin:center}
 @keyframes rise{from{opacity:0;transform:translateY(8px)}}
 .rise{animation:rise .7s cubic-bezier(.2,.7,.2,1) backwards}
 @keyframes fade{from{opacity:0}}
 .fade{animation:fade .8s ease-out backwards}
-@keyframes blink{0%,55%{opacity:1}56%,100%{opacity:.3}}
-.blink{animation:blink 1.4s ease-in-out infinite}
+@keyframes blink{50%{opacity:.84}}
+.blink{animation:blink 1s ease-in-out 2}
 @keyframes type{from{transform:scaleX(1)}to{transform:scaleX(0)}}
 .type{transform-box:fill-box;transform-origin:right center;transform:scaleX(0);animation:type .55s steps(24,end) backwards}
 @media (prefers-reduced-motion:reduce){*{animation:none!important}}
 </style>
 <rect x=".5" y=".5" width="839" height="265" rx="14" fill="#f7f5ef" stroke="#ddd7ca"/>
 <rect x="1" y="34" width="838" height="231" rx="13" fill="url(#halo)"/>
-<path d="M1 34V14.5A13.5 13.5 0 0 1 14.5 1h811A13.5 13.5 0 0 1 839 14.5V34z" fill="#efebe2"/>
+<path d="M1 34V14.5Q1 1 14.5 1H825.5Q839 1 839 14.5V34z" fill="#efebe2"/>
 <line x1="1" y1="34.5" x2="839" y2="34.5" stroke="#ddd7ca"/>
 <rect x="18" y="13" width="8" height="8" class="green"/><rect x="30" y="13" width="8" height="8" class="amber"/><rect x="42" y="13" width="8" height="8" class="mag"/>
 <text x="62" y="21.5" class="m dim" font-size="11.5">achievements.dat</text>

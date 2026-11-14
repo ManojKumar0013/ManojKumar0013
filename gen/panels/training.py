@@ -9,16 +9,16 @@ def render(st: dict, th: dict, cfg: dict) -> str:
     goals = cfg["goals"]
     body = [ptext("NOW TRAINING", 26, 58, 3.5, "fg")]
     for i, goal in enumerate(goals):
-        y = 118 + i * (59 if mobile else 42)
+        y = 118 + i * (59 if mobile else 49)
         body.append(t(28, y, f"{i + 1:02d}", "amber", 18, weight=700))
         for j, line in enumerate(wrap(goal, 29 if mobile else 36, 2)):
             body.append(t(65, y + j * 22, line, "fg", 18))
-    x, y = (28, 289) if mobile else (510, 90)
+    x, y = (28, 118 + len(goals) * 59 - 6) if mobile else (510, 108)
     body.append(f'<rect x="{x}" y="{y}" width="{width - x - 28}" height="114" rx="9" class="screen" stroke="{th["line"]}"/>')
     body.append(f'<path d="M{x + 18} {y + 16}v55h{width - x - 64}" fill="none" stroke="{th["dim"]}"/>')
     body.append(f'<path class="loss" pathLength="100" d="M{x + 18} {y + 19}l26 12 27 7 26 16 25 -5 31 11 29 -5 32 6 24 -2" fill="none" stroke="{th["green"]}" stroke-width="3"/>')
     body.append(t(x + 15, y + 98, "Illustration · no model measurements", "dim", 13 if not mobile else 15))
-    baseline = y + 152
+    baseline = max(y + 152, 147 + len(goals) * 49) if not mobile else y + 152
     body.append(t(28, baseline, "LAST SHIPPED", "amber", 17, weight=700))
     shipped = st["shipped"]
     if shipped:

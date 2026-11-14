@@ -6,6 +6,8 @@
 
 <a href="https://manojkumar0013.github.io/ManojKumar0013/game/">
 <picture>
+  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="assets/dark/boot-mobile.svg">
+  <source media="(max-width: 600px)" srcset="assets/light/boot-mobile.svg">
   <source media="(prefers-color-scheme: dark)" srcset="assets/dark/boot.svg">
   <img src="assets/light/boot.svg" width="100%" alt="MANOJ//OS boot screen — B.Tech CSE · Machine Learning &amp; Systems. PRESS START">
 </picture>
@@ -14,33 +16,45 @@
 **[▶ PLAY THE GAME](https://manojkumar0013.github.io/ManojKumar0013/game/)**
 
 <picture>
+  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="assets/dark/skills-mobile.svg">
+  <source media="(max-width: 600px)" srcset="assets/light/skills-mobile.svg">
   <source media="(prefers-color-scheme: dark)" srcset="assets/dark/skills.svg">
   <img src="assets/light/skills.svg" width="100%" alt="Player Select — skills: C, Python, Java, React, Kotlin, JavaScript with levels from repo languages">
 </picture>
 
 <picture>
+  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="assets/dark/training-mobile.svg">
+  <source media="(max-width: 600px)" srcset="assets/light/training-mobile.svg">
   <source media="(prefers-color-scheme: dark)" srcset="assets/dark/training.svg">
   <img src="assets/light/training.svg" width="100%" alt="Now Training — learning goals and latest public commit">
 </picture>
 
 <picture>
+  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="assets/dark/achievements-mobile.svg">
+  <source media="(max-width: 600px)" srcset="assets/light/achievements-mobile.svg">
   <source media="(prefers-color-scheme: dark)" srcset="assets/dark/achievements.svg">
   <img src="assets/light/achievements.svg" width="100%" alt="Achievements — public pull requests, streak, languages, and projects">
 </picture>
 
 <picture>
+  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="assets/dark/scores-mobile.svg">
+  <source media="(max-width: 600px)" srcset="assets/light/scores-mobile.svg">
   <source media="(prefers-color-scheme: dark)" srcset="assets/dark/scores.svg">
   <img src="assets/light/scores.svg" width="100%" alt="High Scores — contributions, streaks, repos, stars and followers, live from GitHub">
 </picture>
 
 <a href="https://manojkumar0013.github.io/ManojKumar0013/game/">
 <picture>
+  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="assets/dark/level-mobile.svg">
+  <source media="(max-width: 600px)" srcset="assets/light/level-mobile.svg">
   <source media="(prefers-color-scheme: dark)" srcset="assets/dark/level.svg">
   <img src="assets/light/level.svg" width="100%" alt="World map — this year's contributions drawn as a pixel platformer level">
 </picture>
 </a>
 
 <picture>
+  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="assets/dark/stages-mobile.svg">
+  <source media="(max-width: 600px)" srcset="assets/light/stages-mobile.svg">
   <source media="(prefers-color-scheme: dark)" srcset="assets/dark/stages.svg">
   <img src="assets/light/stages.svg" width="100%" alt="Unlocked Stages — featured projects as game cartridges">
 </picture>
@@ -57,6 +71,8 @@
 <!-- STAGES:END -->
 
 <picture>
+  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="assets/dark/contact-mobile.svg">
+  <source media="(max-width: 600px)" srcset="assets/light/contact-mobile.svg">
   <source media="(prefers-color-scheme: dark)" srcset="assets/dark/contact.svg">
   <img src="assets/light/contact.svg" width="100%" alt="Continue? Insert coin to connect — LinkedIn and email">
 </picture>

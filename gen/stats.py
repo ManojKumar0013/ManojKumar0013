@@ -236,7 +236,7 @@ def shape(account: dict, repos: list[dict], calendar: list, today: dt.date,
     for r in candidates[:config["max_projects"]]:
         project = featured.get(r["name"], {})
         language = r.get("language")
-        projects.append({"name": r["name"], "title": project.get("title", r["name"]), "url": r["html_url"],
+        projects.append({"name": r["name"], "title": project.get("title"), "url": r["html_url"],
                          "stars": r["stargazers_count"], "days": max(0, (today - timestamp(r["pushed_at"] or r["created_at"]).date()).days),
                          "kb": r["size"], "desc": project.get("description", r.get("description") or ""),
                          "lang": language, "n_langs": len(r["languages"]), "color": LANG_COLORS.get(language, "#687c74")})

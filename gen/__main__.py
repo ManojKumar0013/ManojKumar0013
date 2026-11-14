@@ -4,10 +4,10 @@ import os
 import re
 import sys
 import tempfile
-from .kit import THEMES
+from .kit import THEMES, palette
 from .game import export_level
 from .stats import fetch, CONFIG
-from .panels import boot, skills, scores, level, stages, contact, training, achievements
+from .panels import boot, skills, scores, level, stages, contact, training, achievements, mobile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "assets")
@@ -40,9 +40,13 @@ def main():
         sys.exit(1)
     print(f"stats: {st['contribs']} contributions, {st['repos']} repos, streak {st['streak']}/{st['best_streak']}")
     rendered = {}
-    for theme, th in THEMES.items():
-        for name, mod in PANELS.items():
-            rendered[f"{theme}/{name}.svg"] = mod.render(st, th, CONFIG)
+    for theme in THEMES:
+        for narrow in (False, True):
+            th = palette(theme, CONFIG, st["today"], narrow)
+            for name, mod in PANELS.items():
+                renderer = mobile.RENDER.get(name, mod.render) if narrow else mod.render
+                suffix = "-mobile" if narrow else ""
+                rendered[f"{theme}/{name}{suffix}.svg"] = renderer(st, th, CONFIG)
     for rel, svg in rendered.items():
         dst = os.path.join(OUT, rel)
         os.makedirs(os.path.dirname(dst), exist_ok=True)

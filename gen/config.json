@@ -157,5 +157,27 @@
       "title": "Time Tick Quiz",
       "description": "Python quiz project."
     }
+  },
+  "seasons": {
+    "10": {
+      "dark": {
+        "green": "#ffc780",
+        "mag": "#ff8db1"
+      },
+      "light": {
+        "green": "#805116",
+        "mag": "#9f295d"
+      }
+    },
+    "12": {
+      "dark": {
+        "green": "#8fe6ff",
+        "mag": "#ffa6cf"
+      },
+      "light": {
+        "green": "#005f78",
+        "mag": "#9f295d"
+      }
+    }
   }
 }
