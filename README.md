@@ -86,11 +86,31 @@ I’m a B.Tech Computer Science student working toward AI/ML engineering roles. 
 <details>
 <summary><code>$ cat HOW_IT_WORKS.txt</code></summary>
 
-- `gen/stats.py` pulls live data from GitHub (GraphQL in Actions, the public API locally).
-- `gen/panels/*.py` draw each screen as a plain SVG with CSS animation, which GitHub plays inside images. Each one has a dark and a light version.
-- Skill levels come from how much of each language is in the repos (`gen/config.json` maps React to TypeScript). Skills with no code yet show **IN TRAINING**.
-- Stages pick the starred repos first, then the most recently pushed ones. Forks and this repo are skipped.
-- `.github/workflows/render.yml` redraws everything daily at 03:17 UTC. If GitHub can't be reached, the last good panels stay up.
-- Run it yourself: `python -m gen` (Python 3.10+, no packages needed).
+GitHub cannot run the game inside the README. The panels are self-contained SVGs selected by theme and viewport. The two playable panels link to GitHub Pages.
+
+```mermaid
+flowchart TD
+    GH["GitHub calendar and public repos"] --> GEN["Python snapshot generator"]
+    CFG["Profile config"] --> GEN
+    GEN --> SVG["README and themed SVGs"]
+    GEN --> DATA["Game level JSON"]
+    DATA --> GAME["GitHub Pages canvas game"]
+    GAME --> LOCAL["Device score board"]
+    GAME -.-> WORKER["Optional replay verifier"]
+    DATA --> WORKER
+```
+
+- With a token, GitHub GraphQL provides the calendar. A best-effort public parser validates daily counts when GraphQL is unavailable. REST provides public repositories, language evidence, recent authored commits, and the earliest public pull request found.
+- Arcade skill levels are capped counts of public non-fork repositories with matching languages, topics, or configured dependency manifests. An empty evidence count keeps a skill in training. The loss curve is an illustration.
+- Each active calendar day creates one game coin. A fixed 60 Hz simulation makes the same level and input log replayable in the browser and on the server.
+- Actions checks the full generated snapshot before publishing. A failed refresh leaves the previous snapshot available.
+
+[Make your own or deploy the game](CONTRIBUTING.md) · [View the release plan](plan/plan.md)
 
 </details>
+
+## What I learned building this
+
+- I learned to separate the data model from the presentation. The same contribution calendar drives the README map and the playable level.
+- I learned to make browser gameplay reproducible by recording input changes per tick. The server can recompute the score independently from the browser.
+- I learned to treat missing evidence as a data state. The profile distinguishes a learning goal from a public repo signal and tests how the pipeline handles missing or malformed inputs.
