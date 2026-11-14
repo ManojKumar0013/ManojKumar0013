@@ -8,14 +8,14 @@ MONO = "'JetBrains Mono','SF Mono','Cascadia Code','Fira Code',Menlo,Consolas,'D
 THEMES = {
     "dark": {
         "bg": "#07090b", "screen": "#0a0e11", "card": "#0d1215", "bar": "#0c1013",
-        "line": "#1a2328", "line2": "#243037", "fg": "#e3ece7", "dim": "#8a9892", "faint": "#56656b",
+        "line": "#1a2328", "line2": "#243037", "fg": "#e3ece7", "dim": "#8a9892", "faint": "#83978e",
         "green": "#6ff7b0", "green2": "#1f7a52", "amber": "#ffb547", "amber2": "#7a5a22",
         "mag": "#ff5ca8", "sky": "#0f1a1d", "glow": 0.18,
     },
     "light": {
         "bg": "#f7f5ef", "screen": "#fbfaf6", "card": "#ffffff", "bar": "#efebe2",
-        "line": "#ddd7ca", "line2": "#cfc8b8", "fg": "#18211c", "dim": "#626c66", "faint": "#968e7c",
-        "green": "#0a8a55", "green2": "#9fd8bd", "amber": "#b56a00", "amber2": "#ecd2a6",
+        "line": "#ddd7ca", "line2": "#cfc8b8", "fg": "#18211c", "dim": "#626c66", "faint": "#6a6254",
+        "green": "#087344", "green2": "#9fd8bd", "amber": "#875100", "amber2": "#ecd2a6",
         "mag": "#c2185b", "sky": "#eef3ee", "glow": 0.0,
     },
 }
@@ -33,10 +33,14 @@ def esc(s) -> str:
 
 def fit(s: str, n: int) -> str:
     s = " ".join(str(s).split())
-    return s if len(s) <= n else s[: max(1, n - 1)].rstrip(" -_·,.") + "…"
+    if n <= 0:
+        return ""
+    return s if len(s) <= n else s[:n - 1].rstrip(" -_·,.") + "…"
 
 
 def wrap(s: str, n: int, lines: int) -> list[str]:
+    if n <= 0 or lines <= 0:
+        return []
     words, out, cur = " ".join(str(s).split()).split(" "), [], ""
     for w in words:
         if len(w) > n: w = fit(w, n)
@@ -68,8 +72,8 @@ BASE_CSS = """
 .rise{animation:rise .7s cubic-bezier(.2,.7,.2,1) backwards}
 @keyframes fade{from{opacity:0}}
 .fade{animation:fade .8s ease-out backwards}
-@keyframes blink{0%%,55%%{opacity:1}56%%,100%%{opacity:.3}}
-.blink{animation:blink 1.4s ease-in-out infinite}
+@keyframes blink{50%%{opacity:.84}}
+.blink{animation:blink 1s ease-in-out 2}
 @keyframes type{from{transform:scaleX(1)}to{transform:scaleX(0)}}
 .type{transform-box:fill-box;transform-origin:right center;transform:scaleX(0);animation:type .55s steps(24,end) backwards}
 @media (prefers-reduced-motion:reduce){*{animation:none!important}}
@@ -78,25 +82,35 @@ BASE_CSS = """
 
 def chrome(th: dict, h: int, title: str, right: str, body: str, css: str = "", label: str = "") -> str:
     p = dict(th, mono=MONO)
+    width = 420 if th.get("mobile") else W
     glow = (f'<filter id="glow" x="-20%" y="-40%" width="140%" height="180%"><feGaussianBlur stdDeviation="2.4" result="b"/>'
             f'<feComponentTransfer in="b" result="b2"><feFuncA type="linear" slope="{0.9 if th["glow"] else 0}"/></feComponentTransfer>'
             f'<feMerge><feMergeNode in="b2"/><feMergeNode in="SourceGraphic"/></feMerge></filter>')
-    return f'''<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{h}" viewBox="0 0 {W} {h}" role="img" aria-label="{esc(label or title)}">
+    return f'''<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{h}" viewBox="0 0 {width} {h}" role="img" aria-label="{esc(label or title)}">
 <title>{esc(label or title)}</title>
 <defs>{glow}
 <radialGradient id="halo" cx="50%" cy="0%" r="90%"><stop offset="0" stop-color="{th['green']}" stop-opacity="{th['glow'] * 0.55:.3f}"/><stop offset="1" stop-color="{th['green']}" stop-opacity="0"/></radialGradient>
 </defs>
 <style>{BASE_CSS % p}{css}</style>
-<rect x=".5" y=".5" width="{W - 1}" height="{h - 1}" rx="14" fill="{th['bg']}" stroke="{th['line']}"/>
-<rect x="1" y="34" width="{W - 2}" height="{h - 35}" rx="13" fill="url(#halo)"/>
-<path d="M1 34V14.5A13.5 13.5 0 0 1 14.5 1h811A13.5 13.5 0 0 1 839 14.5V34z" fill="{th['bar']}"/>
-<line x1="1" y1="34.5" x2="{W - 1}" y2="34.5" stroke="{th['line']}"/>
+<rect x=".5" y=".5" width="{width - 1}" height="{h - 1}" rx="14" fill="{th['bg']}" stroke="{th['line']}"/>
+<rect x="1" y="34" width="{width - 2}" height="{h - 35}" rx="13" fill="url(#halo)"/>
+<path d="M1 34V14.5Q1 1 14.5 1H{width - 14.5}Q{width - 1} 1 {width - 1} 14.5V34z" fill="{th['bar']}"/>
+<line x1="1" y1="34.5" x2="{width - 1}" y2="34.5" stroke="{th['line']}"/>
 <rect x="18" y="13" width="8" height="8" class="green"/><rect x="30" y="13" width="8" height="8" class="amber"/><rect x="42" y="13" width="8" height="8" class="mag"/>
 {t(62, 21.5, title, "dim", 11.5)}
-{t(W - 18, 21.5, right, "dim", 11.5, "end")}
+{t(width - 18, 21.5, fit(right, 28) if th.get("mobile") else right, "dim", 11.5, "end")}
 {body}
 </svg>'''
 
 
 def header(title_svg: str, sub: str) -> str:
     return title_svg + t(W - 28, 82, sub, "dim", 11.5, "end")
+
+
+
+def palette(theme: str, config: dict, today: str, mobile: bool = False) -> dict:
+    """Apply optional seasonal overrides without affecting base layout."""
+    colors = {**THEMES[theme], "mobile": mobile}
+    season = config.get("seasons", {}).get(today[5:7], {})
+    colors.update(season.get(theme, {}))
+    return colors

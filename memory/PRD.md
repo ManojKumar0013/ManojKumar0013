@@ -1,15 +1,13 @@
-# MANOJ//OS — Arcade Edition (GitHub profile README for ManojKumar0013)
-## Problem
-Unique animated profile README like github.com/Ru0k3/Ru0k3, showing skills, with great ideas.
-## Architecture
-Pure Python (stdlib only) generator `python -m gen` -> animated SVGs in assets/{dark,light}/; README uses <picture> for theme switching.
-- gen/stats.py: GraphQL (Actions token) or public REST + contributions page locally
-- gen/panels: boot, skills, scores, level, stages, contact
-- .github/workflows/render.yml: daily 03:17 UTC refresh; failed fetch exits 1, assets untouched
-- gen/config.json: name, tagline, links, skills mapping (React->TypeScript), exclusions
-- preview.html (gitignored) for local viewing
-## Done (2026-11-13)
-- Phase 1: all 6 panels, light/dark, daily refresh, auto project links in README; tested (iteration_1: 100%)
-## Backlog
-- P1: achievements panel, "now playing" line, visitor credits counter
-- P2: seasonal looks, cheat-code easter egg, weekly health report
+# MANOJ//OS Arcade Edition
+
+The profile pairs an animated GitHub README with a playable, calendar-driven arcade game. Recruiters can follow public projects, a concrete learning roadmap, and the commits or PRs behind the displayed achievements.
+
+## Release requirements
+
+- Eight self-contained panels with light, dark and narrow layouts, finite CSS motion, reduced-motion support and alternate text.
+- A zero-build GitHub Pages game with keyboard and touch, three lives, collectible skills, and one coin per active contribution day.
+- A yearly device-local score board and an optional shared service that verifies deterministic replays and throttles submissions.
+- Public project evidence, clear training states, and a decorative loss illustration labeled as such.
+- A daily refresh with full validation before output writes, and independent CI for pull requests.
+
+The code is in the repository. GitHub Pages and the optional score service become live after the owner configures their hosting. See [the setup instructions](../CONTRIBUTING.md).

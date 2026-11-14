@@ -21,16 +21,17 @@ def card(i, sk, th):
     o = [f'<g class="rise" style="animation-delay:{0.15 + i * 0.12:.2f}s">',
          f'<rect x="{x}" y="{y}" width="{CW}" height="{CH}" rx="10" class="card" stroke="{th["line"]}"/>',
          f'<rect x="{x + 14}" y="{y + 14}" width="64" height="64" rx="6" fill="{th["screen"]}" stroke="{th["line"]}"/>',
-         sprite_paths(SPRITES[sk["key"]], x + 18, y + 18, 4, ICON_COLORS[sk["key"]]),
+         (sprite_paths(SPRITES[sk["key"]], x + 18, y + 18, 4, ICON_COLORS[sk["key"]])
+          if sk["key"] in SPRITES else ptext("ML", x + 46, y + 34, 3, "mag", "middle")),
          t(x + 92, y + 30, "CLASS", "dim", 9.5),
-         t(x + 92, y + 46, sk["role"], "fg", 12, weight=600),
+         t(x + 92, y + 46, sk["role"][:13], "fg", 10.5, weight=600),
          f'<rect x="{x + 92}" y="{y + 56}" width="{len(status) * 6.4 + 20:.0f}" height="18" rx="9" fill="none" stroke="{th[tone]}" stroke-opacity=".55"/>',
          f'<circle cx="{x + 101}" cy="{y + 65}" r="2.6" class="{tone}"/>',
          t(x + 108, y + 68.5, status, tone, 9.5, weight=600),
          t(x + CW - 16, y + 30, "LV", "dim", 9.5, "end"),
          ptext(f"{sk['level']:02d}", x + CW - 16, y + 38, 3, f"{tone} glow", "end"),
-         ptext(sk["name"], x + 16, y + 90, 3, "fg"),
-         t(x + 16, y + 130, f"pkg: {sk['key']} · " + (f"{sk['share'] * 100:.1f}% of code" if sk["share"] else "first repo loading…"), "dim", 11)]
+         ptext(sk["name"], x + 16, y + 90, 2.9, "fg"),
+         t(x + 16, y + 130, f"{sk['repos']} public repos with evidence" if sk["repos"] else "No public repo evidence", "dim", 11)]
     seg_w = (CW - 32 - 9 * 3) / 10
     for s in range(10):
         on = s < sk["level"]
@@ -48,7 +49,7 @@ def selector(th, n):
         y = (i // 3) * (CH + GAP)
         a, b = i * 100 / n, (i + 1) * 100 / n - 0.01
         steps.append(f"{a:.2f}%,{b:.2f}%{{transform:translate({x}px,{y}px)}}")
-    css = "@keyframes sel{" + "".join(steps) + "}.sel{animation:sel %ds steps(1,end) infinite 2.4s}" % (n * 2)
+    css = "@keyframes sel{" + "".join(steps) + "}.sel{animation:sel %ds steps(1,end) 1 .5s}" % (4)
     x, y, w, h, k = X0 - 5, Y0 - 5, CW + 10, CH + 10, 14
     c = th["amber"]
     corners = (f"M{x} {y + k}V{y}H{x + k}M{x + w - k} {y}H{x + w}V{y + k}"
@@ -62,12 +63,15 @@ def selector(th, n):
 def render(st, th, cfg):
     skills = st["skills"]
     rows = (len(skills) + 2) // 3
-    h = Y0 + rows * CH + (rows - 1) * GAP + 26
-    body = [header(ptext("PLAYER SELECT", 28, 62, 3, "fg"), "choose your fighter · levels from repo languages")]
+    h = Y0 + max(1, rows) * CH + max(0, rows - 1) * GAP + 26
+    body = [header(ptext("PLAYER SELECT", 28, 62, 3, "fg"), "levels count public repo evidence")]
     body += [card(i, sk, th) for i, sk in enumerate(skills)]
-    css, sel = selector(th, len(skills))
-    body.append(sel)
+    if not skills:
+        body.append(t(W / 2, Y0 + 65, "No skills configured", "dim", 18, "middle"))
+    css, sel = selector(th, len(skills)) if skills else ("", "")
+    if skills:
+        body.append(sel)
     css += "@keyframes seg{from{opacity:.15}}.seg{animation:seg .35s ease-out backwards}"
-    summary = ", ".join(f"{s['name'].title()} level {s['level']}" for s in skills)
+    summary = ", ".join(f"{s['name'].title()}: {s['repos']} public repositories" for s in skills)
     return chrome(th, h, "player_select.exe", f"{len(skills)} fighters · {sum(not s['training'] for s in skills)} installed",
                   "\n".join(body), css, f"Skills: {summary}")

@@ -11,3 +11,9 @@ credentials.json
 *.pem
 *.key
 .credentials
+.wrangler/
+.dev.vars*
+node_modules/
+playwright-report/
+test-results/
+dist/

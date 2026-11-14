@@ -1,5 +1,4 @@
-name: render profile
-
+name: Render profile
 on:
   schedule:
     - cron: "17 3 * * *"
@@ -10,30 +9,37 @@ on:
 
 permissions:
   contents: write
-
 concurrency:
-  group: render
+  group: render-profile
   cancel-in-progress: false
 
 jobs:
   render:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: main
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
           python-version: "3.12"
-      - name: Render MANOJ//OS panels
+      - name: Generate and verify snapshot
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PROFILE_LOGIN: ${{ github.repository_owner }}
-        run: python -m gen
-      - name: Commit refreshed panels
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add assets README.md
-          git diff --cached --quiet && echo "nothing changed" && exit 0
-          git commit -m "render: refresh panels $(date -u +%Y-%m-%d)"
-          git pull --rebase -X theirs origin main
-          git push
+          python -m gen
+          python -m gen --check
+      - name: Commit snapshot if changed
+        run: |
+          git add -- assets README.md game/level.json
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+          git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' commit -m 'Refresh arcade snapshot'
+          git push origin HEAD:refs/heads/main
+      - name: Flag refresh failure
+        if: failure()
+        run: |
+          echo "::error title=Arcade refresh failed::The previous published snapshot is still available. Re-run after reviewing this job."
+          echo 'Profile refresh failed. Check the failed step, then re-run this workflow.' >> "$GITHUB_STEP_SUMMARY"

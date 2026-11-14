@@ -10,9 +10,9 @@ def render(st, th, cfg):
         (f"CONTRIBUTIONS {st['year']}", st["contribs"], "commits, PRs, issues and reviews"),
         ("CURRENT STREAK", st["streak"], "days in a row, up to today"),
         (f"LONGEST STREAK {st['year']}", st["best_streak"], "best run of active days"),
-        ("PUBLIC REPOS", st["repos"], f"{st['own_repos']} built from scratch"),
+        ("PUBLIC REPOS", st["repos"], f"{st['own_repos']} public projects · forks excluded"),
         ("STARS EARNED", st["stars"], "across own repositories"),
-        ("FOLLOWERS", st["followers"], "players in the lobby"),
+        ("FOLLOWERS", st["followers"], "GitHub followers"),
     ]
     y0, rh = 128, 44
     body = [header(ptext("HIGH SCORES", 28, 62, 3, "fg"), f"world {st['year']} · live from github")]
@@ -34,7 +34,7 @@ def render(st, th, cfg):
         o.append(t(120, y + 18, label, "fg", 13, weight=600))
         o.append(t(120, y + 32, note, "dim", 10.5))
         o.append(f'<line x1="{120 + len(label) * 8 + 14:.0f}" y1="{y + 15}" x2="{W - 232}" y2="{y + 15}" stroke="{th["faint"]}" stroke-dasharray="2 5"/>')
-        o.append(ptext(f"{min(val, 999999):06d}", W - 220, y + 8, 3, score_cls))
+        o.append(ptext(f"{val:06d}", W - 220, y + 8, 3, score_cls))
         o.append(ptext(cfg["initials"], W - 44, y + 12, 2, "dim", "end"))
         if label == "CURRENT STREAK" and val > 0 and val >= st["best_streak"]:
             o.append(f'<g class="blink">{ptext("NEW RECORD", W - 336, y + 13, 1.4, "mag", "end")}</g>')

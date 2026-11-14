@@ -23,7 +23,7 @@ def cart(i, p, th):
     shell = (f"M{x + 10} {y}H{x + CW - k}L{x + CW} {y + k}V{y + CH - 10}a10 10 0 0 1 -10 10"
              f"H{x + 10}a10 10 0 0 1 -10 -10V{y + 10}a10 10 0 0 1 10 -10z")
     desc = p["desc"] or f"{p['lang'] or 'Code'} build · {p['kb']:,} KB · {p['n_langs']} language{'s' if p['n_langs'] != 1 else ''}"
-    lines = wrap(desc, 31, 2)
+    lines = wrap(desc, 30, 3)
     lx, ly, lw, lh = x + 14, y + 26, CW - 28, 112
     o = [f'<g class="rise" style="animation-delay:{0.15 + i * 0.12:.2f}s">',
          f'<path d="{shell}" class="card" stroke="{th["line"]}"/>',
@@ -32,15 +32,16 @@ def cart(i, p, th):
          f'<rect x="{lx}" y="{ly}" width="{lw}" height="{lh}" rx="6" fill="{p["color"]}" fill-opacity=".1" stroke="{p["color"]}" stroke-opacity=".45"/>',
          f'<rect x="{lx}" y="{ly}" width="{lw}" height="6" rx="3" fill="{p["color"]}"/>',
          ]
-    title = wrap(pretty(p["name"]), 26, 2)
+    title = wrap(p["title"] or pretty(p["name"]), 26, 2)
     for j, ln in enumerate(title):
         o.append(t(lx + 12, ly + 30 + j * 17, ln, "fg", 13.5, weight=700))
     for j, ln in enumerate(lines):
-        o.append(t(lx + 12, ly + 40 + len(title) * 17 + 6 + j * 16, ln, "dim", 11))
+        o.append(t(lx + 12, ly + 29 + len(title) * 17 + j * 14, ln, "dim", 11))
     by = y + 158
     o.append(f'<circle cx="{x + 20}" cy="{by - 4}" r="4.5" fill="{p["color"]}"/>')
     o.append(t(x + 31, by, fit(p["lang"] or "—", 12), "fg", 11))
-    o.append(f'<path d="{star(x + 140, by - 4, 5.5)}" class="amber"/>' + t(x + 150, by, str(p["stars"]), "fg", 11))
+    if p["stars"]:
+        o.append(f'<path d="{star(x + 140, by - 4, 5.5)}" class="amber"/>' + t(x + 150, by, str(p["stars"]), "fg", 11))
     o.append(t(x + CW - 16, by, ago(p["days"]), "dim", 11, "end"))
     o.append("".join(f'<rect x="{x + 26 + g * 22}" y="{y + CH - 5}" width="12" height="3" rx="1" fill="{th["line2"]}"/>' for g in range(10)))
     o.append("</g>")
@@ -61,7 +62,7 @@ def render(st, th, cfg):
     ps = st["projects"]
     rows = max(1, (len(ps) + 2) // 3)
     h = Y0 + rows * CH + (rows - 1) * GAP + 26
-    body = [header(ptext("UNLOCKED STAGES", 28, 62, 3, "fg"), f"{len(ps)} of {st['own_repos']} repos · stars first, then latest")]
+    body = [header(ptext("UNLOCKED STAGES", 28, 62, 3, "fg"), f"{len(ps)} of {st['own_repos']} repos · featured builds")]
     body += [cart(i, p, th) for i, p in enumerate(ps)]
     if not ps:
         body.append(t(W / 2, Y0 + 90, "no public stages yet — first one unlocks soon", "dim", 13, "middle"))

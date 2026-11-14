@@ -1,0 +1,16 @@
+name = "manoj-os-scores"
+main = "worker.mjs"
+compatibility_date = "2025-04-01"
+workers_dev = true
+
+[vars]
+GAME_ORIGIN = "https://manojkumar0013.github.io"
+LEVEL_URL = "https://manojkumar0013.github.io/ManojKumar0013/game/level.json"
+
+[[durable_objects.bindings]]
+name = "SCORES"
+class_name = "ArcadeScores"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["ArcadeScores"]
