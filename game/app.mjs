@@ -103,6 +103,7 @@ function launch() {
   }
   if (run && !run.result) return;
   run = start(level);
+  if (document.activeElement === el("start")) el("game").focus({preventScroll: true});
   paused = false;
   timer = 0;
   replay = [];
@@ -123,7 +124,10 @@ function pause(value = !paused) {
   pointers.clear();
   el("pause").textContent = paused ? "Resume" : "Pause";
   if (paused) showOverlay("Paused", "Your run is frozen.", "Resume");
-  else el("overlay").hidden = true;
+  else {
+    el("overlay").hidden = true;
+    if (document.activeElement === el("start")) el("game").focus({preventScroll: true});
+  }
 }
 
 function requestBoard(params = {}) {
@@ -265,7 +269,7 @@ el("save").addEventListener("submit", async e => {
     try {
       shared = await requestBoard({method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(body)});
       displayBoard();
-      el("boardStatus").textContent = "Score checked by the shared leaderboard.";
+      el("boardStatus").textContent = "Run checked by the shared leaderboard.";
       return;
     } catch { shared = null; }
   }

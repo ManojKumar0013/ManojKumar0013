@@ -82,3 +82,19 @@ test("worker verifies scores, deduplicates and rate limits", async () => {
     sqlite.close();
   }
 });
+
+test("a varied map can be cleared using jump, coins, and bug stomps", () => {
+  const varied = {...level, weeks: [...Array.from({length: 5}, () => [0, 0, 0, 0, 0, 0, 0]), ...level.weeks]};
+  const game = start(varied);
+  while (!game.result) {
+    const progress = game.player.x - 264, offset = progress % 240;
+    const quiet = !varied.weeks[Math.floor(progress / 240)]?.some(Boolean);
+    const jump = progress >= 0 && (quiet ? (offset > 14 && offset < 98) ||
+      (offset > 100 && offset < 144) : offset > 39 && offset < 126);
+    step(game, RIGHT | (jump ? JUMP : 0));
+  }
+  assert.ok(game.tick <= 180 * 60);
+  assert.equal(game.result, "level clear");
+  assert.ok(game.coinCount > 0);
+  assert.ok(game.bugCount > 0);
+});

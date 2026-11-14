@@ -17,7 +17,7 @@
   <h2>Run Through My Year</h2>
   <div class="hud"><span id="world">Loading level…</span><span id="score">Score 0</span><span id="lives">Lives 3</span></div>
   <div class="screen">
-    <canvas id="game" width="320" height="180" aria-label="Pixel platform game based on the GitHub contribution calendar"></canvas>
+    <canvas id="game" tabindex="-1" width="320" height="180" aria-label="Pixel platform game based on the GitHub contribution calendar"></canvas>
     <div id="overlay" class="overlay">
       <h3 id="headline">Loading level…</h3>
       <p id="summary">Reading the contribution calendar.</p>
@@ -26,8 +26,8 @@
   </div>
   <p id="notice" role="status" class="notice"></p>
   <div class="controls" aria-label="Game controls">
-    <button data-mask="1" type="button" aria-label="Move left">◀</button>
-    <button data-mask="2" type="button" aria-label="Move right">▶</button>
+    <button data-mask="1" type="button" aria-label="Move left">←</button>
+    <button data-mask="2" type="button" aria-label="Move right">→</button>
     <button data-mask="4" type="button" aria-label="Jump">Jump</button>
     <button id="pause" type="button">Pause</button>
   </div>
