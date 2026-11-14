@@ -51,8 +51,13 @@ def request(url, *, token=None, payload=None, raw=False):
             with urllib.request.urlopen(req, timeout=15) as response:
                 return response.read().decode("utf-8") if raw else json.load(response)
         except urllib.error.HTTPError as error:
-            if error.code not in (500, 502, 503, 504) or attempt == 2:
+            secondary_limit = error.code == 403 and error.headers.get("Retry-After")
+            if (error.code not in (429, 500, 502, 503, 504) and not secondary_limit) or attempt == 2:
                 raise
+            retry_after = error.headers.get("Retry-After", "")
+            if retry_after.isdecimal():
+                time.sleep(min(15, int(retry_after)))
+                continue
         except (urllib.error.URLError, TimeoutError):
             if attempt == 2:
                 raise
@@ -165,7 +170,19 @@ def repo_evidence(repo: dict, token: str | None) -> dict:
     languages = request(repo["languages_url"], token=token)
     if not isinstance(languages, dict) or any(type(v) is not int or v < 0 for v in languages.values()):
         raise ValueError("Invalid GitHub language response")
-    return {**repo, "languages": languages}
+    declared = set()
+    # Check configured public manifests. Framework usage is never inferred from TypeScript alone.
+    for path in CONFIG.get("manifests", {}).get(repo["name"], []):
+        url = f"https://raw.githubusercontent.com/{LOGIN}/{repo['name']}/{repo['default_branch']}/{path}"
+        try:
+            manifest = request(url, token=None)
+        except urllib.error.HTTPError as error:
+            if error.code == 404:
+                continue
+            raise
+        declared.update(manifest.get("dependencies", {}))
+        declared.update(manifest.get("devDependencies", {}))
+    return {**repo, "languages": languages, "dependencies": declared}
 
 
 def skill_levels(repos: list[dict], config: dict) -> list[dict]:
@@ -176,7 +193,8 @@ def skill_levels(repos: list[dict], config: dict) -> list[dict]:
         topics = set(skill.get("topics", []))
         hits = [repo for repo in repos if
                 names.intersection(name for name, size in repo["languages"].items() if size > 0)
-                or topics.intersection(repo.get("topics", []))]
+                or topics.intersection(repo.get("topics", []))
+                or set(skill.get("dependencies", [])).intersection(repo.get("dependencies", []))]
         count = len(hits)
         result.append({**skill, "repos": count, "level": min(count, config["level_cap"]), "training": not count})
     return result
@@ -211,6 +229,8 @@ def last_commit(repos: list[dict], token: str | None) -> dict | None:
 def first_public_pr(token: str | None) -> str | None:
     query = urlencode({"q": f"is:pr is:public author:{LOGIN}", "sort": "created", "order": "asc", "per_page": 1})
     result = request(f"{API}/search/issues?{query}", token=token)
+    if result.get("incomplete_results"):
+        raise ValueError("GitHub returned incomplete pull request search results")
     return result["items"][0]["html_url"] if result["items"] else None
 
 

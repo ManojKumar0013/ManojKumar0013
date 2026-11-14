@@ -12,7 +12,7 @@
     },
     {
       "label": "EMAIL",
-      "text": "manojkumarbondada123@gmail.com",
+      "text": "Send an email",
       "url": "mailto:manojkumarbondada123@gmail.com"
     },
     {
@@ -55,6 +55,9 @@
         "react",
         "reactjs",
         "react-js"
+      ],
+      "dependencies": [
+        "react"
       ]
     },
     {
@@ -179,5 +182,13 @@
         "mag": "#9f295d"
       }
     }
+  },
+  "manifests": {
+    "portfolio1": [
+      "frontend/package.json"
+    ],
+    "icepop": [
+      "frontend/package.json"
+    ]
   }
 }
