@@ -31,12 +31,12 @@
 
 <!-- STAGES:START -->
 <p align="center">
-  <a href="https://github.com/ManojKumar0013/icepop"><code>01 icepop</code></a> ·
-  <a href="https://github.com/ManojKumar0013/HungryHub-Online-Food-Ordering-System-"><code>02 HungryHub-Online-Food-Ordering-System-</code></a> ·
-  <a href="https://github.com/ManojKumar0013/EMOTION_BASED_MUSIC_WEBSITE"><code>03 EMOTION_BASED_MUSIC_WEBSITE</code></a> ·
-  <a href="https://github.com/ManojKumar0013/23CSE111_CLINIC_APPOINTEMENT_SYSTEM_C4"><code>04 23CSE111_CLINIC_APPOINTEMENT_SYSTEM_C4</code></a> ·
-  <a href="https://github.com/ManojKumar0013/Circle-Accuracy-Challenge"><code>05 Circle-Accuracy-Challenge</code></a> ·
-  <a href="https://github.com/ManojKumar0013/neetcode-submissions"><code>06 neetcode-submissions</code></a>
+  <a href="https://github.com/ManojKumar0013/portfolio1"><code>01 portfolio1</code></a> ·
+  <a href="https://github.com/ManojKumar0013/Time-Tick-Quiz"><code>02 Time-Tick-Quiz</code></a> ·
+  <a href="https://github.com/ManojKumar0013/icepop"><code>03 icepop</code></a> ·
+  <a href="https://github.com/ManojKumar0013/HungryHub-Online-Food-Ordering-System-"><code>04 HungryHub-Online-Food-Ordering-System-</code></a> ·
+  <a href="https://github.com/ManojKumar0013/EMOTION_BASED_MUSIC_WEBSITE"><code>05 EMOTION_BASED_MUSIC_WEBSITE</code></a> ·
+  <a href="https://github.com/ManojKumar0013/23CSE111_CLINIC_APPOINTEMENT_SYSTEM_C4"><code>06 23CSE111_CLINIC_APPOINTEMENT_SYSTEM_C4</code></a>
 </p>
 <!-- STAGES:END -->
 
