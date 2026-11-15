@@ -87,9 +87,9 @@ class RenderTests(TestCase):
         self.assertEqual(result, render_files(stats, source, config))
         validate(result)
         encoded = "".join(result[path] for path in sorted(result))
-        self.assertEqual(sha256(encoded.encode()).hexdigest(), "9fd83730a7871b024ce8cda04a5ca3ed57881c7e2088fc259161a2de45f55214")
+        self.assertEqual(sha256(encoded.encode()).hexdigest(), "7c788a6a7aaa87eb335653d1dce0ebb4f1ca153089773de84aecc02559e5113d")
         self.assertIn("IN TRAINING", result[README].upper())
-        self.assertEqual(len(art_paths()), 32)
+        self.assertEqual(len(art_paths()), 24)
         self.assertNotIn("training.svg", result[README])
         self.assertNotIn("achievements.svg", result[README])
         for skill in ("Jupyter", "PyTorch", "scikit-learn", "CUDA / GPU"):
@@ -97,7 +97,8 @@ class RenderTests(TestCase):
         self.assertIn('href="https://github.com/example/My_Very_Long-Project_Name"', result[README])
         self.assertIn('src="assets/light/project-1.svg" width="246"', result[README])
         self.assertNotIn("project-1-mobile.svg", result[README])
-        self.assertIn("footer.svg", result[README])
+        self.assertNotIn("footer.svg", result[README])
+        self.assertNotIn("intro.svg", result[README])
         self.assertNotEqual(palette("dark", config, "2026-12-01")["green"],
                             palette("dark", config, "2026-11-01")["green"])
         for path in art_paths():

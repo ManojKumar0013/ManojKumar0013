@@ -37,7 +37,7 @@ jobs:
       - name: Stage static game
         run: |
           mkdir -p public/game
-          cp game/index.html game/style.css game/app.mjs game/engine.mjs game/level.json game/sw.js public/game/
+          cp game/index.html game/style.css game/app.mjs game/engine.mjs game/scenery.mjs game/level.json game/sw.js public/game/
           printf '%s\n' '<!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0; url=game/"><a href="game/">Play the arcade game</a>' > public/index.html
       - uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3.0.1
         with:

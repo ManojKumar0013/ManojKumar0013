@@ -83,7 +83,6 @@
     "url": "https://manojkumar0013.github.io/ManojKumar0013/game/",
     "leaderboard": ""
   },
-  "intro": "I’m a B.Tech Computer Science student working toward AI/ML engineering roles. I build full-stack systems and am learning to design reproducible ML experiments, compare baselines, and explain what the metrics mean.",
   "goals": [
     "Compare a scikit-learn baseline with a second model",
     "Train a small PyTorch model and inspect its errors",
@@ -145,10 +144,5 @@
     "portfolio": [
       "frontend/package.json"
     ]
-  },
-  "lessons": [
-    "One GitHub calendar powers both the README map and the playable level.",
-    "Recording inputs per tick lets the server replay runs and verify scores.",
-    "The profile tests missing or malformed data before publishing a snapshot."
-  ]
+  }
 }

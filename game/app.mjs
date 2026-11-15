@@ -1,4 +1,5 @@
-import {LEFT, RIGHT, JUMP, HZ, WIDTH, HEIGHT, validateLevel, start, step} from "./engine.mjs";
+import {LEFT, RIGHT, JUMP, HZ, LIMIT, WIDTH, HEIGHT, validateLevel, start, step} from "./engine.mjs";
+import {scenery} from "./scenery.mjs";
 
 const el = id => document.getElementById(id);
 const ctx = el("game").getContext("2d");
@@ -6,6 +7,8 @@ const root = document.documentElement;
 const codes = {ArrowLeft: LEFT, KeyA: LEFT, ArrowRight: RIGHT, KeyD: RIGHT,
   Space: JUMP, ArrowUp: JUMP, KeyW: JUMP};
 const keys = new Set(), pointers = new Map();
+const controls = [...document.querySelectorAll("[data-mask]")];
+const scheme = matchMedia("(prefers-color-scheme: dark)");
 const secret = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight",
   "ArrowLeft", "ArrowRight", "KeyB", "KeyA"];
 let level, settings, run, audio, paused = false, sound = false, rainbow = false, sequence = 0;
@@ -36,8 +39,12 @@ function playSound(type) {
 
 function updateColors() {
   const css = getComputedStyle(root);
-  colors = Object.fromEntries(["screen", "green", "soil", "coin", "bug", "fg", "dim"]
-    .map(name => [name, css.getPropertyValue("--" + name).trim()]));
+  const names = {
+    soil: "soil", green: "green", coin: "coin", bug: "bug", fg: "fg", dim: "dim",
+    skyTop: "sky-top", skyHorizon: "sky-horizon", far: "far", ridge: "ridge", pine: "pine", moon: "moon",
+  };
+  colors = Object.fromEntries(Object.entries(names).map(([key, name]) =>
+    [key, css.getPropertyValue("--" + name).trim()]));
 }
 
 function draw() {
@@ -45,33 +52,34 @@ function draw() {
     ctx.fillStyle = color;
     ctx.fillRect(Math.round(x), Math.round(y), w, h);
   };
-  box(0, 0, WIDTH, HEIGHT, colors.screen);
-  if (!run) return;
-  const p = run.player, camera = Math.max(0, Math.min(run.end - WIDTH, p.x - 100));
-  for (let i = 0; i < 7; i++) {
-    box(i * 65 - camera * .18 % 65, 112 - i % 3 * 8, 51, 26 + i % 3 * 8, colors.soil + "35");
-  }
+  const p = run?.player;
+  const camera = p ? Math.max(0, Math.min(run.end - WIDTH, p.x - 100)) : 0;
+  scenery(ctx, WIDTH, HEIGHT, camera, colors);
+  if (!p) return;
   for (const tile of run.solids) {
     if (tile.x + tile.w < camera || tile.x > camera + WIDTH) continue;
-    box(tile.x - camera, tile.y, tile.w, tile.y < 148 ? 8 : 32, colors.soil);
+    box(tile.x - camera, tile.y, tile.w, tile.y < 148 ? 7 : 32, colors.soil);
     box(tile.x - camera, tile.y, tile.w, 2, colors.green);
-    for (let x = 4; x < tile.w - 3; x += 12) box(tile.x - camera + x, tile.y + 5, 4, 2, colors.screen);
+    for (let x = 4; x < tile.w - 3; x += 12) {
+      box(tile.x - camera + x, tile.y + 4, 3, 2, colors.pine);
+      if (tile.y === 148) box(tile.x - camera + x + 3, tile.y + 14 + x % 9, 7, 2, colors.ridge);
+    }
   }
   for (const coin of run.coins) if (!coin.used && Math.abs(coin.x - camera - WIDTH / 2) < WIDTH / 2 + 10) {
     box(coin.x - camera + 1, coin.y, 6, 8, colors.coin);
     box(coin.x - camera, coin.y + 2, 8, 4, colors.coin);
-    box(coin.x - camera + 3, coin.y + 2, 2, 4, colors.screen);
+    box(coin.x - camera + 3, coin.y + 2, 2, 4, "#a36832");
   }
   for (const item of run.powers) if (!item.used) {
     box(item.x - camera, item.y, 10, 10, colors.bug);
-    box(item.x - camera + 4, item.y + 2, 2, 6, colors.screen);
-    box(item.x - camera + 2, item.y + 4, 6, 2, colors.screen);
+    box(item.x - camera + 4, item.y + 2, 2, 6, colors.soil);
+    box(item.x - camera + 2, item.y + 4, 6, 2, colors.soil);
   }
   for (const bug of run.bugs) if (!bug.used) {
     box(bug.x - camera, bug.y + 3, 12, 6, colors.bug);
     box(bug.x - camera + 2, bug.y, 8, 6, colors.bug);
-    box(bug.x - camera + 4, bug.y + 3, 2, 2, colors.screen);
-    box(bug.x - camera + 8, bug.y + 3, 2, 2, colors.screen);
+    box(bug.x - camera + 4, bug.y + 3, 2, 2, colors.soil);
+    box(bug.x - camera + 8, bug.y + 3, 2, 2, colors.soil);
   }
   box(run.flag - camera, 109, 2, 39, colors.fg);
   box(run.flag - camera + 2, 109, 15, 8, colors.bug);
@@ -84,11 +92,23 @@ function draw() {
 }
 
 function updateHud() {
-  el("score").textContent = "Score " + run.score;
-  el("lives").textContent = "Lives " + run.lives;
+  const seconds = Math.max(0, Math.ceil((LIMIT - run.tick) / HZ));
+  el("clock").textContent = Math.floor(seconds / 60) + ":" + String(seconds % 60).padStart(2, "0");
+  el("score").textContent = run.score.toLocaleString();
+  el("lives").textContent = "♥ ".repeat(run.lives) + "♡ ".repeat(Math.max(0, 3 - run.lives));
+  el("lives").setAttribute("aria-label", run.lives + (run.lives === 1 ? " life" : " lives"));
+  el("progress").value = Math.min(100, Math.max(0, (run.player.x + run.player.w) / run.flag * 100));
 }
 
-function showOverlay(title, summary, button) {
+function setControls(active) {
+  for (const button of controls) {
+    button.disabled = !active;
+    button.removeAttribute("data-held");
+  }
+}
+
+function showOverlay(state, title, summary, button) {
+  el("overlay").dataset.state = state;
   el("headline").textContent = title;
   el("summary").textContent = summary;
   el("start").textContent = button;
@@ -111,6 +131,9 @@ function launch() {
   pending = null;
   el("save").hidden = true;
   el("overlay").hidden = true;
+  el("pause").disabled = false;
+  el("pause").textContent = "Pause";
+  setControls(true);
   el("notice").textContent = "The current week’s flag is the finish.";
   updateHud();
   draw();
@@ -123,10 +146,11 @@ function pause(value = !paused) {
   keys.clear();
   pointers.clear();
   el("pause").textContent = paused ? "Resume" : "Pause";
-  if (paused) showOverlay("Paused", "Your run is frozen.", "Resume");
+  setControls(!paused);
+  if (paused) showOverlay("paused", "Run paused", "Pick up where you left off.", "Resume run");
   else {
     el("overlay").hidden = true;
-    if (document.activeElement === el("start")) el("game").focus({preventScroll: true});
+    el("game").focus({preventScroll: true});
   }
 }
 
@@ -144,22 +168,31 @@ function requestBoard(params = {}) {
 const sorted = scores => scores.sort((a, b) => b.score - a.score || a.date.localeCompare(b.date)).slice(0, 10);
 const qualifies = (scores, score) => scores.length < 10 || score > scores.at(-1).score;
 function displayBoard() {
-  el("boardLabel").textContent = shared ? "shared this year" : "on this device";
+  el("boardLabel").textContent = shared ? "Shared this year" : "On this device";
   el("scores").replaceChildren();
   const scores = shared ?? local;
-  for (const entry of scores.slice(0, run?.result ? 10 : 5)) {
-    const li = document.createElement("li"), when = document.createElement("span");
-    li.textContent = `${entry.initials} · ${entry.score.toLocaleString()} `;
+  scores.slice(0, 10).forEach((entry, index) => {
+    const li = document.createElement("li");
+    const rank = document.createElement("span");
+    const initials = document.createElement("strong");
+    const score = document.createElement("strong");
+    const when = document.createElement("time");
+    rank.textContent = String(index + 1).padStart(2, "0");
+    initials.textContent = entry.initials;
+    score.textContent = entry.score.toLocaleString();
     when.textContent = entry.date;
-    li.append(when);
+    li.append(rank, initials, score, when);
     el("scores").append(li);
-  }
+  });
   el("boardStatus").textContent = scores.length ? "" : "The board is open for your first run.";
 }
 
 function finish() {
   playSound(run.result === "level clear" ? "clear" : "hit");
-  showOverlay(run.result, `${run.score} points · ${run.coinCount} coins · ${run.bugCount} bugs · ${(run.tick / HZ).toFixed(1)} s`, "Play again");
+  setControls(false);
+  el("pause").disabled = true;
+  const title = {"level clear": "Course complete", "time up": "Time’s up", "game over": "Run ended"}[run.result];
+  showOverlay("result", title, `${run.score} points · ${run.coinCount} coins · ${run.bugCount} bugs · ${(run.tick / HZ).toFixed(1)} s`, "Play again");
   pending = {id: level.id, ticks: run.tick, changes: replay};
   displayBoard();
   el("save").hidden = !(run.score && (qualifies(local, run.score) || shared && qualifies(shared, run.score)));
@@ -201,17 +234,23 @@ el("sound").onclick = async () => {
       playSound("coin");
     }
   } catch { sound = false; }
-  el("sound").textContent = sound ? "Sound on" : "Sound off";
+  el("sound-label").textContent = sound ? "Sound on" : "Sound off";
   el("sound").setAttribute("aria-pressed", String(sound));
 };
-el("theme").onclick = () => {
-  const next = {system: "dark", dark: "light", light: "system"}[root.dataset.theme || "system"];
-  root.dataset.theme = next;
-  el("theme").textContent = "Theme: " + next;
+let theme = load("arcade:theme") || "system";
+if (!["system", "dark", "light"].includes(theme)) theme = "system";
+function applyTheme() {
+  root.dataset.theme = theme === "system" ? (scheme.matches ? "dark" : "light") : theme;
+  el("theme-label").textContent = "Theme: " + theme;
   updateColors();
   draw();
+}
+el("theme").onclick = () => {
+  theme = {system: "dark", dark: "light", light: "system"}[theme];
+  store("arcade:theme", theme);
+  applyTheme();
 };
-matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { updateColors(); draw(); });
+scheme.addEventListener("change", applyTheme);
 
 document.addEventListener("keydown", e => {
   if (e.altKey || e.ctrlKey || e.metaKey || e.target.matches("input,textarea,select")) return;
@@ -223,7 +262,7 @@ document.addEventListener("keydown", e => {
       el("notice").textContent = rainbow ? "Hidden runner palette unlocked" : "Original runner palette restored";
     }
   }
-  if (!e.repeat && e.code === "KeyP") pause();
+  if (!e.repeat && ["KeyP", "Escape"].includes(e.code)) pause();
   if (!e.repeat && e.code === "KeyM") el("sound").click();
   if (!e.repeat && ["Space", "Enter"].includes(e.code) && (!run || run.result || paused) &&
       !e.target.matches("button,a")) {
@@ -237,22 +276,23 @@ document.addEventListener("keydown", e => {
   }
 });
 document.addEventListener("keyup", e => keys.delete(codes[e.code]));
-for (const button of document.querySelectorAll("[data-mask]")) {
+for (const button of controls) {
   button.addEventListener("pointerdown", e => {
     e.preventDefault();
+    if (button.disabled) return;
     button.setPointerCapture(e.pointerId);
+    button.dataset.held = "";
     pointers.set(e.pointerId, Number(button.dataset.mask));
   });
   for (const event of ["pointerup", "pointercancel", "lostpointercapture"]) {
-    button.addEventListener(event, e => pointers.delete(e.pointerId));
+    button.addEventListener(event, e => {
+      pointers.delete(e.pointerId);
+      if (![...pointers.values()].includes(Number(button.dataset.mask))) button.removeAttribute("data-held");
+    });
   }
 }
 window.addEventListener("blur", () => pause(true));
 document.addEventListener("visibilitychange", () => { if (document.hidden) pause(true); });
-new ResizeObserver(([entry]) => {
-  const width = entry.contentRect.width;
-  root.style.setProperty("--canvas-width", Math.min(width, Math.max(1, Math.floor(width / WIDTH)) * WIDTH) + "px");
-}).observe(document.querySelector(".screen"));
 
 el("save").addEventListener("submit", async e => {
   e.preventDefault();
@@ -286,7 +326,7 @@ async function boot() {
   } catch {
     try { level = validateLevel(load("arcade:last-level")); }
     catch {
-      showOverlay("Level unavailable", "Reconnect and reload to download the contribution calendar.", "Reload to try again");
+      showOverlay("error", "Level unavailable", "Reconnect and reload to download the contribution calendar.", "Reload to try again");
       el("start").disabled = false;
       el("start").onclick = () => location.reload();
       return;
@@ -295,11 +335,11 @@ async function boot() {
   settings = level.game ?? {};
   el("profile").href = "https://github.com/" + encodeURIComponent(level.login);
   el("logo").textContent = level.logo;
-  el("world").textContent = "World " + level.year;
+  el("world").textContent = String(level.year);
   local = load(boardKey()) ?? [];
   if (!Array.isArray(local)) local = [];
   displayBoard();
-  showOverlay("Press start", "Run through the GitHub year. Grab coins, dodge bugs, reach the flag.", "Start game");
+  showOverlay("ready", "Ready to run?", "Grab coins, dodge bugs, and reach the finish flag.", "Start run");
   el("start").disabled = false;
   if (settings.leaderboard) {
     try { shared = await requestBoard(); displayBoard(); }
@@ -307,8 +347,7 @@ async function boot() {
   }
 }
 
-updateColors();
-draw();
+applyTheme();
 requestAnimationFrame(frame);
 boot();
 
