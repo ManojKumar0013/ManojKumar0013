@@ -17,7 +17,7 @@ from .stats import CONFIG, fetch
 
 ROOT = Path(__file__).resolve().parents[1]
 PANELS = {"boot": boot, "skills": skills, "stages": stages, "level": level,
-          "scores": scores, "contact": contact, "intro": gold.intro, "footer": gold.footer}
+          "scores": scores, "contact": contact}
 BUDGET = 150_000
 PLAY = "Play the game"
 LEVEL = Path("game/level.json")
@@ -76,7 +76,6 @@ def profile_block(st: dict, config: dict) -> str:
     return "\n\n".join([
         f"# {config['display_name']}",
         picture("boot", f'{config["logo"]} boot screen. Press start to play the contribution platformer.', game_url),
-        picture("intro", config["intro"]),
         buttons(links),
         picture("skills", "Player Select. " + "; ".join(
             f"{sk['name']}: {'in training' if sk['training'] else str(sk['repos']) + ' public repositories with evidence'}"
@@ -88,7 +87,6 @@ def profile_block(st: dict, config: dict) -> str:
                 f"{st['stars']} project stars and {st['followers']} followers."),
         picture("contact", "Continue? Use the contact links below."),
         buttons(links[1:], 1),
-        picture("footer", "What I learned building this. " + " ".join(config["lessons"])),
     ])
 
 

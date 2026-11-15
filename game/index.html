@@ -3,46 +3,81 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0c1013">
-  <title>Run Through My Year · Arcade Edition</title>
+  <meta name="theme-color" content="#10151e">
+  <title>Run Through My Year | MANOJ//OS Arcade</title>
   <link rel="stylesheet" href="./style.css">
 </head>
 <body>
+<header class="topbar">
+  <a id="profile" class="brand" href="../">
+    <span class="brand-mark" aria-hidden="true">M</span>
+    <span><strong id="logo">MANOJ//OS</strong><small>GitHub profile</small></span>
+  </a>
+  <div class="settings">
+    <button id="sound" type="button" aria-pressed="false"><span aria-hidden="true">♪</span> <span id="sound-label">Sound off</span></button>
+    <button id="theme" type="button"><span aria-hidden="true">◐</span> <span id="theme-label">Theme: system</span></button>
+  </div>
+</header>
 <main>
-  <header>
-    <div><a id="profile" href="../">GitHub profile</a><h1 id="logo">Arcade Edition</h1></div>
-    <div class="settings"><button id="sound" type="button" aria-pressed="false">Sound off</button>
-      <button id="theme" type="button">Theme: system</button></div>
-  </header>
-  <h2>Run Through My Year</h2>
-  <div class="hud"><span id="world">Loading level…</span><span id="score">Score 0</span><span id="lives">Lives 3</span></div>
-  <div class="screen">
-    <canvas id="game" tabindex="-1" width="320" height="180" aria-label="Pixel platform game based on the GitHub contribution calendar"></canvas>
-    <div id="overlay" class="overlay">
-      <h3 id="headline">Loading level…</h3>
-      <p id="summary">Reading the contribution calendar.</p>
-      <button id="start" type="button" disabled>Press start</button>
-    </div>
+  <div class="page-title">
+    <h1>Run Through My Year</h1>
+    <p>A platformer built from Manoj’s GitHub contributions.</p>
   </div>
-  <p id="notice" role="status" class="notice"></p>
-  <div class="controls" aria-label="Game controls">
-    <button data-mask="1" type="button" aria-label="Move left">←</button>
-    <button data-mask="2" type="button" aria-label="Move right">→</button>
-    <button data-mask="4" type="button" aria-label="Jump">Jump</button>
-    <button id="pause" type="button">Pause</button>
+  <div class="layout">
+    <section class="console" aria-label="Game">
+      <div class="hud">
+        <div><span class="hud-label">Course</span><strong id="world">Loading…</strong></div>
+        <div><span class="hud-label">Score</span><strong id="score">0</strong></div>
+        <div><span class="hud-label">Lives</span><strong id="lives" aria-label="3 lives">♥ ♥ ♥</strong></div>
+        <div><span class="hud-label">Time left</span><strong id="clock">3:00</strong></div>
+        <button id="pause" type="button" disabled>Pause</button>
+      </div>
+      <div class="screen">
+        <canvas id="game" tabindex="-1" width="320" height="180" aria-label="Side-scrolling pixel platformer"></canvas>
+        <div id="overlay" class="overlay" data-state="loading">
+          <div class="menu">
+            <h2 id="headline" aria-live="polite">Loading level…</h2>
+            <p id="summary">Reading the contribution calendar.</p>
+            <button id="start" class="primary" type="button" disabled>Start run</button>
+          </div>
+        </div>
+      </div>
+      <div class="route" aria-label="Course progress">
+        <span>Start</span><progress id="progress" max="100" value="0" aria-label="Course progress"></progress><span>Finish</span>
+      </div>
+      <div class="console-bottom">
+        <p id="notice" role="status">Collect coins and reach the flag.</p>
+        <div class="controls" aria-label="Touch controls">
+          <button data-mask="1" type="button" aria-label="Move left" disabled>←</button>
+          <button data-mask="2" type="button" aria-label="Move right" disabled>→</button>
+          <button data-mask="4" type="button" aria-label="Jump" disabled>Jump ↑</button>
+        </div>
+      </div>
+    </section>
+    <aside class="sidebar">
+      <section class="board">
+        <h2>Leaderboard</h2>
+        <p id="boardLabel" class="muted">On this device</p>
+        <p id="boardStatus" role="status">Loading scores…</p>
+        <ol id="scores"></ol>
+        <form id="save" hidden>
+          <label for="initials">Your initials</label>
+          <div><input id="initials" autocomplete="off" maxlength="3" minlength="3" pattern="[A-Za-z]{3}" placeholder="AAA" required>
+          <button type="submit">Save score</button></div>
+        </form>
+      </section>
+      <section class="guide">
+        <h2>How to play</h2>
+        <dl>
+          <div><dt>Move</dt><dd><kbd>←</kbd> <kbd>→</kbd> <span>or</span> <kbd>A</kbd> <kbd>D</kbd></dd></div>
+          <div><dt>Jump</dt><dd><kbd>Space</kbd> <span>or</span> <kbd>↑</kbd></dd></div>
+          <div><dt>Pause</dt><dd><kbd>P</kbd> <span>or</span> <kbd>Esc</kbd></dd></div>
+        </dl>
+        <p>Hold jump to go higher. Stomp bugs and collect skill pickups on your way to the flag.</p>
+      </section>
+    </aside>
   </div>
-  <p class="help">Move with ← / → or A / D. Hold Space, ↑ or W to jump higher. P pauses. M toggles sound.</p>
-  <section class="board">
-    <h2>High scores <small id="boardLabel">on this device</small></h2>
-    <p id="boardStatus" role="status"></p>
-    <ol id="scores"></ol>
-    <form id="save" hidden>
-      <label for="initials">Your initials</label>
-      <input id="initials" autocomplete="off" maxlength="3" minlength="3" pattern="[A-Za-z]{3}" placeholder="AAA" required>
-      <button type="submit">Save score</button>
-    </form>
-  </section>
-  <noscript>This game needs JavaScript. The GitHub profile remains available without it.</noscript>
+  <noscript>Enable JavaScript to play the arcade game.</noscript>
 </main>
 <script type="module" src="./app.mjs"></script>
 </body>

@@ -1,6 +1,6 @@
 // Cache the game shell after the first successful online visit.
-const CACHE = "manoj-arcade-v1";
-const SHELL = ["./", "./index.html", "./style.css", "./app.mjs", "./engine.mjs", "./level.json"];
+const CACHE = "manoj-arcade-v2";
+const SHELL = ["./", "./index.html", "./style.css", "./app.mjs", "./engine.mjs", "./scenery.mjs", "./level.json"];
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(SHELL)));
 });
