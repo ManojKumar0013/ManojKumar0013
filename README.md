@@ -51,7 +51,7 @@
   <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="assets/dark/scores-mobile.svg">
   <source media="(max-width: 600px)" srcset="assets/light/scores-mobile.svg">
   <source media="(prefers-color-scheme: dark)" srcset="assets/dark/scores.svg">
-  <img src="assets/light/scores.svg" width="840" alt="High Scores. 56 contributions, 2-day current streak, 0 project stars and 4 followers.">
+  <img src="assets/light/scores.svg" width="840" alt="High Scores. 73 contributions, 3-day current streak, 0 project stars and 4 followers.">
 </picture>
 
 <picture>
